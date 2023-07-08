@@ -4,6 +4,7 @@ import {
   fetchFilteredProducts,
   fetchAllBrands,
   fetchAllCategories,
+  fetchSingleProduct,
 } from "./ProductAPI";
 
 const initialState = {
@@ -12,8 +13,9 @@ const initialState = {
   brands: [],
   totalPages: 0,
   status: "idle",
+  selectedProduct: 0,
 };
-
+//All products
 export const fetchAllProductsAsync = createAsyncThunk(
   "product/fetchAllProducts",
   async () => {
@@ -23,6 +25,17 @@ export const fetchAllProductsAsync = createAsyncThunk(
   }
 );
 
+//Single product in product overview
+export const fetchSingleProductAsync = createAsyncThunk(
+  "product/fetchSingleProduct",
+  async (id) => {
+    const response = await fetchSingleProduct(id);
+    // The value we return becomes the `fulfilled` action payload
+    return response.data;
+  }
+);
+
+//filter products
 export const fetchFilteredProductsAsync = createAsyncThunk(
   "product/fetchFilteredProducts",
   async ({ filter, sort, pagination }) => {
@@ -94,6 +107,15 @@ export const ProductSlice = createSlice({
       .addCase(fetchBrandsAsync.fulfilled, (state, action) => {
         state.status = "idle";
         state.brands = action.payload;
+      })
+
+      //fetch single product for product overview
+      .addCase(fetchSingleProductAsync.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchSingleProductAsync.fulfilled, (state, action) => {
+        state.status = "idle";
+        state.selectedProduct = action.payload;
       });
   },
 });
@@ -104,5 +126,6 @@ export const selectAllProducts = (state) => state.product.products;
 export const selectAllCategories = (state) => state.product.category;
 export const selectAllBrands = (state) => state.product.brands;
 export const selectTotalPages = (state) => state.product.totalPages;
+export const selectSingleProduct = (state) => state.product.selectedProduct;
 
 export default ProductSlice.reducer;

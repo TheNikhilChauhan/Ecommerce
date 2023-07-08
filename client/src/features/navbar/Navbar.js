@@ -1,40 +1,25 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-
+import { PW } from "../../assets/PW.jpg";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
+import { selectItems } from "../cart/cartSlice";
 
-const Navbar = () => {
-  /* const [showOptions, setShowOptions] = useState(false); */
+const Navbar = ({ children }) => {
+  const items = useSelector(selectItems);
 
-  /* const handleLogout = () => {
-    setAuth({
-      ...auth,
-      user: null,
-      token: "",
-    });
-    localStorage.removeItem("auth");
-    toast.success("Logout Successfully..!");
-    navigate("/login");
-  };
-
-  const handleClick = () => {
-    setShowOptions(!showOptions);
-  }; */
   return (
     <div>
       <div className=" bg-stone-800 shadow-xl cursor-pointer pt-2">
         <img
           className=" w-20 h-12 float-left pl-3  rounded-md "
-          src="https://images.pexels.com/photos/2235130/pexels-photo-2235130.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          src={"/src/assets/PW.jpg"}
           alt="logo"
         />
 
         <ul className=" flex justify-end gap-7 h-12 items-center pr-5 text-white text-lg ">
           <li className="hover: p-2 hover: border-gray-400 hover: border-solid hover:border-2 active:text-yellow-200">
             <NavLink to={"/"}>Home</NavLink>
-          </li>
-          <li className="hover: p-2 hover: border-gray-400 hover: border-solid hover:border-2 active:text-yellow-200">
-            Category
           </li>
 
           <li className="hover: p-2 hover: border-gray-400 hover: border-solid hover:border-2 active:text-yellow-200">
@@ -78,32 +63,30 @@ const Navbar = () => {
                 aria-orientation="vertical"
                 aria-labelledby="menu-button"
                 tabindex="-1"
-              >
-                {/* <div class="py-1" role="none">
-                  <li className=" text-black  hover: p-2 hover: border-gray-400 hover: border-solid hover:border-2 active:text-yellow-200">
-                    <NavLink
-                          to={`/dashboard/${
-                            auth?.user?.role === 1 ? "admin" : "user"
-                          }`}
-                        >
-                    Dashboard
-                     </NavLink>
-                  </li>
-
-                  <li
-                    onClick={handleLogout}
-                    className=" text-black hover: p-2 hover: border-gray-400 hover: border-solid hover:border-2 active:text-black"
-                  >
-                    Logout
-                  </li>
-                </div> */}
-              </div>
+              ></div>
             </div>
           </li>
           <li className="hover: p-2 hover: border-gray-400 hover: border-solid hover:border-2 active:text-yellow-200">
-            <NavLink to={"/cart"}>🛒 Cart (0)</NavLink>
+            <NavLink to={"/cart"}>
+              <button
+                type="button"
+                className="ml-auto flex-shrink-0  bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+              >
+                🛒 Cart
+              </button>
+            </NavLink>
+            {items && items.length > 0 && (
+              <span className="inline-flex items-center rounded-md bg-red-50   px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
+                {items.length}
+              </span>
+            )}
           </li>
         </ul>
+        <main>
+          <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+            {children}
+          </div>
+        </main>
       </div>
     </div>
   );

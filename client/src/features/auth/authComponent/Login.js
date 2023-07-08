@@ -1,12 +1,23 @@
 import { React, useState } from "react";
 
 import styles from "../../../styles/Username.module.css";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
 import Navbar from "../../navbar/Navbar";
+import { useForm } from "react-hook-form";
+import { checkUserAsync, selectError, selectUserLoggedIn } from "../authSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Login() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const dispatch = useDispatch();
+  const user = useSelector(selectUserLoggedIn);
+  const error = useSelector(selectError);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -40,55 +51,96 @@ export default function Login() {
   }; */
 
   return (
-    <div className="container mx-auto">
-      <div className="flex justify-center items-center h-screen ">
-        <div className={styles.glass}>
-          <div className="title flex flex-col items-center ">
-            <h3 className="text-5xl font-bold">Hello again!</h3>
-            <span className="py-4 text-xl w-2/3 text-center text-gray-500">
-              We Welcome you to our website!
-            </span>
-          </div>
-
-          <form className="py-1">
-            {/* onSubmit={handleSubmit} */}
-            <div className="textbox flex flex-col items-center py-4 gap-6">
-              <input
-                type="email"
-                placeholder="Email"
-                className={styles.textbox}
-                value={email}
-                /* onChange={(e) => setEmail(e.target.value)} */
-              />
-              <input
-                type="password"
-                placeholder="Password"
-                className={styles.textbox}
-                value={password}
-                /*  onChange={(e) => setPassword(e.target.value)} */
-              />
-              <button
-                className="border bg-indigo-500 w-3/4 py-4 rounded-lg text-gray-50 text-xl shadow-sm text-center hover:bg-red-500"
-                type="submit"
-              >
-                Let's Go
-              </button>
-            </div>
-            <div className="text-center py-4 flex flex-col gap-3">
-              <span>
-                Not a Member?
-                <Link className="text-red-500" to="/register">
-                  Register Now
-                </Link>
+    <div>
+      {user && <Navigate to="/" replace={true}></Navigate>}
+      <div className="container mx-auto">
+        <div className="flex justify-center items-center h-screen ">
+          <div className={styles.glass}>
+            <div className="title flex flex-col items-center ">
+              <h3 className="text-5xl font-bold">Hello again!</h3>
+              <span className="py-4 text-xl w-2/3 text-center text-gray-500">
+                We Welcome you to our website!
               </span>
-              <span>
-                Forgot Password?
-                {/* <Link className="text-red-500" to="/reset">
+            </div>
+
+            <form
+              noValidate
+              className="py-1 overflow-x-visible "
+              onSubmit={handleSubmit((data) =>
+                dispatch(
+                  checkUserAsync({
+                    email: data.email,
+                    password: data.password,
+                  }),
+                  console.log(data)
+                )
+              )}
+            >
+              <div className="textbox flex flex-col items-center py-4 gap-6">
+                <input
+                  type="email"
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b/gi,
+                      message: "email not valid",
+                    },
+                  })}
+                  placeholder="Email"
+                  className={styles.textbox}
+                />
+                {errors.email && (
+                  <p className="text-red-500">{errors.email.message}</p>
+                )}
+
+                <input
+                  type="password"
+                  {...register("password", {
+                    required: "password is required",
+                    pattern: {
+                      value:
+                        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm,
+                      message: `- at least 8 characters \n - must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number \n - Can contain special characters`,
+                    },
+                  })}
+                  placeholder="Password"
+                  className={styles.textbox}
+
+                  /*  onChange={(e) => setPassword(e.target.value)} */
+                />
+
+                {errors.password && (
+                  <p className="text-red-500">{errors.password.message}</p>
+                )}
+                <div>
+                  {error && (
+                    <p className="text-red-500">{error || error.message}</p>
+                  )}
+                </div>
+
+                <button
+                  className="border bg-indigo-500 w-3/4 py-4 rounded-lg text-gray-50 text-xl shadow-sm text-center hover:bg-red-500"
+                  type="submit"
+                >
+                  Let's Go
+                </button>
+              </div>
+              <div className="text-center py-4 flex flex-col gap-3">
+                <span>
+                  Not a Member?
+                  <Link className="text-red-500" to="/register">
+                    Register Now
+                  </Link>
+                </span>
+                <span>
+                  Forgot Password?
+                  {/* <Link className="text-red-500" to="/reset">
                   Recover Now
                 </Link> */}
-              </span>
-            </div>
-          </form>
+                </span>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
