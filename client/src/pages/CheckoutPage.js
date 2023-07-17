@@ -9,28 +9,28 @@ import {
 import { Link, Navigate } from "react-router-dom";
 import { CurrencyRupeeIcon } from "@heroicons/react/20/solid";
 import { useForm } from "react-hook-form";
-import {
-  selectUserLoggedIn,
-  updateUserAsync,
-} from "../features/auth/authSlice";
+import { selectUserLoggedIn } from "../features/auth/authSlice";
+import { updateUserAsync } from "../features/user/userSlice";
 import { toast } from "react-hot-toast";
-import { createOrderAsync } from "../features/order/orderSlice";
+import {
+  createOrderAsync,
+  selectCurrentOrder,
+} from "../features/order/orderSlice";
+import { selectUserInfo } from "../features/user/userSlice";
 
 const CheckoutPage = () => {
-  const countries = ["China", "Russia", "UK"];
   const [menu, setMenu] = useState(false);
-  const [country, setCountry] = useState("United States");
 
   const changeText = (e) => {
     setMenu(false);
-    setCountry(e.target.textContent);
   };
 
-  const user = useSelector(selectUserLoggedIn);
+  const currentOrder = useSelector(selectCurrentOrder);
+
+  const user = useSelector(selectUserInfo);
 
   const {
     register,
-    reset,
     handleSubmit,
     formState: { errors },
   } = useForm();
@@ -49,17 +49,20 @@ const CheckoutPage = () => {
   const [payment, setPayment] = useState(null);
 
   const handleQuantity = (e, item) => {
-    dispatch(updateCartAsync({ ...item, quantity: e.target.value }));
+    dispatch(updateCartAsync({ id: item.id, quantity: +e.target.value }));
   };
 
   const handleRemove = (e, id) => {
     dispatch(deleteCartItemsAsync(id));
   };
+
   const handleAddress = (e) => {
+    console.log(e.target.value);
     setSelectedAddress(user.addresses[e.target.value]);
   };
 
   const handlePayment = (e) => {
+    console.log(e.target.value);
     setPayment(e.target.value);
   };
 
@@ -70,7 +73,7 @@ const CheckoutPage = () => {
         totalItems,
         payment,
         totalAmount,
-        user: user.id,
+        user,
         selectedAddress,
         status: "pending,",
       };
@@ -83,6 +86,12 @@ const CheckoutPage = () => {
   return (
     <div>
       {!items.length && <Navigate to="/" replace={true}></Navigate>}
+      {currentOrder && currentOrder.payment === "cash" && (
+        <Navigate
+          to={`/order-success/${currentOrder.id}`}
+          replace={true}
+        ></Navigate>
+      )}
       <div className="flex justify-center items-center mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 ">
         <div className="py-16 px-4 md:px-6 2xl:px-0 flex justify-center items-center 2xl:mx-auto 2xl:container">
           <div className="flex flex-col justify-start items-start w-full space-y-9">
@@ -260,7 +269,9 @@ const CheckoutPage = () => {
                       <label for="Fname"> Name: </label>
                       <input
                         type="text"
-                        {...register("name", { required: "name is required" })}
+                        {...register("name", {
+                          required: "name is required",
+                        })}
                         autoComplete="given-name"
                         className="mr-3 rounded-md border-0 text-gray-800 shadow-sm mb-2 w-2/3"
                       />
@@ -298,7 +309,9 @@ const CheckoutPage = () => {
                       City:
                       <input
                         type="text"
-                        {...register("city", { required: "city is required" })}
+                        {...register("city", {
+                          required: "city is required",
+                        })}
                         className="mr-3 rounded-md border-0 text-gray-800 shadow-sm w-1/3"
                       />
                       {errors.name && (
@@ -370,14 +383,14 @@ const CheckoutPage = () => {
                       return (
                         <li
                           key={index}
-                          onChange={handleAddress}
-                          value={index}
                           className="flex justify-between gap-x-6 px-5 py-5 border-solid border-2 border-gray-200"
                         >
                           <div className="flex gap-x-4">
                             <input
                               type="radio"
                               name="address"
+                              onChange={handleAddress}
+                              value={index}
                               className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                             />
 
@@ -416,6 +429,7 @@ const CheckoutPage = () => {
                   <hr className="border w-full" />
                 </div>
 
+                {/* //cash payment */}
                 <div className="mt-6 space-y-6">
                   <div className="flex items-center gap-x-3">
                     <input
@@ -487,12 +501,12 @@ const CheckoutPage = () => {
                       </div>
                     </div>
                   </div>
-                  <button className="mt-8 border border-transparent hover:border-gray-300 bg-gray-900 hover:bg-white text-white hover:text-gray-900 flex justify-center items-center py-4 rounded w-full">
-                    <div>
-                      <p className="text-base leading-4" onClick={handleOrder}>
-                        Pay Now
-                      </p>
-                    </div>
+
+                  <button
+                    className="mt-8 border border-transparent hover:border-gray-300 bg-gray-900 hover:bg-white text-white hover:text-gray-900 flex justify-center items-center py-4 rounded w-full"
+                    onClick={handleOrder}
+                  >
+                    Pay Now
                   </button>
                 </div>
               </div>

@@ -12,6 +12,15 @@ import Protected from "./features/auth/authComponent/Protected";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUserLoggedIn } from "./features/auth/authSlice";
 import { fetchItemsByUserIdAsync } from "./features/cart/cartSlice";
+import PageNotFound from "./pages/PageNotFound";
+import OrderSuccess from "./pages/OrderSuccess";
+import UserOrder from "./features/user/userOrder";
+import UserProfile from "./features/user/userProfile";
+import { fetchLoggedInUserAsync } from "./features/user/userSlice";
+import { Logout } from "./features/auth/authComponent/Logout";
+import ForgotPasswordPAge from "./pages/ForgotPasswordPAge";
+import AdminPage from "./pages/AdminPage";
+import ProtectedAdmin from "./features/auth/authComponent/ProtectedAdmin";
 
 function App() {
   const dispatch = useDispatch();
@@ -20,6 +29,7 @@ function App() {
   useEffect(() => {
     if (user) {
       dispatch(fetchItemsByUserIdAsync(user.id));
+      dispatch(fetchLoggedInUserAsync(user.id));
     }
   }, [dispatch, user]);
 
@@ -38,6 +48,15 @@ function App() {
               </Protected>
             }
           />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedAdmin>
+                {" "}
+                <AdminPage />{" "}
+              </ProtectedAdmin>
+            }
+          />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<LoginPage />} />
           <Route
@@ -49,6 +68,7 @@ function App() {
               </Protected>
             }
           />
+
           <Route
             path="/checkout"
             element={
@@ -67,6 +87,12 @@ function App() {
               </Protected>
             }
           />
+          <Route path="*" element={<PageNotFound />} />
+          <Route path="/order-success/:id" element={<OrderSuccess />} />
+          <Route path="/user-orders" element={<UserOrder />} />
+          <Route path="/user-profile" element={<UserProfile />} />
+          <Route path="/logout" element={<Logout />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPAge />} />
         </Routes>
       </Router>
     </div>

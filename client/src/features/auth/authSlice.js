@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { createUser, checkUser, updateUser } from "./authAPI";
+import { createUser, checkUser, logout } from "./authAPI";
 
 const initialState = {
   value: 0,
@@ -23,16 +23,16 @@ export const checkUserAsync = createAsyncThunk(
   }
 );
 
-//update user details during checkout
-export const updateUserAsync = createAsyncThunk(
-  "users/updateUser",
-  async (update) => {
-    const response = await updateUser(update);
+//logout
+export const logoutAsync = createAsyncThunk(
+  "users/logout",
+  async (logInInfo) => {
+    const response = await logout(logInInfo);
     return response.data;
   }
 );
 
-export const userSlice = createSlice({
+export const authSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
@@ -64,20 +64,20 @@ export const userSlice = createSlice({
         state.error = action.error;
       })
 
-      //update user info
-      .addCase(updateUserAsync.pending, (state) => {
+      //logout user
+      .addCase(logoutAsync.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(updateUserAsync.fulfilled, (state, action) => {
+      .addCase(logoutAsync.fulfilled, (state, action) => {
         state.status = "idle";
-        state.userLoggedIn = action.payload;
+        state.userLoggedIn = null;
       });
   },
 });
 
 export const selectUserLoggedIn = (state) => state.auth.userLoggedIn;
-export const { increment } = userSlice.actions;
+export const { increment } = authSlice.actions;
 export const selectCheckUser = (state) => state.auth.checkUser;
 export const selectError = (state) => state.auth.error;
 
-export default userSlice.reducer;
+export default authSlice.reducer;

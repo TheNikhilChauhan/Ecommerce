@@ -2202,15 +2202,16 @@
     {
       "email": "harvey@gmail.com",
       "password": "Harvey96",
+      "role": "user",
       "addresses": [
         {
-          "name": "Hary",
+          "name": "Harvey",
           "email": "harvey@gmail.com",
-          "country": "India",
-          "city": "Delhi",
-          "street": "Mayur Vihar",
+          "city": "East Delhi",
+          "state": "Delhi",
+          "pinCode": "245234",
           "phone": "3245243556",
-          "pinCode": "245234"
+          "street": "Mayur Vihar"
         }
       ],
       "id": 1
@@ -2218,46 +2219,469 @@
     {
       "email": "test@gmail.com",
       "password": "Test9696",
-      "addresses": [],
+      "role": "user",
+      "addresses": [
+        {
+          "name": "Nikhil",
+          "email": "test@gmail.com",
+          "country": "India",
+          "city": "East Delhi",
+          "street": "27-G, B-6, MAYUR Vihar Phase 3\nMAYUR VIHAR PHASE 3",
+          "phone": "9599034516",
+          "pinCode": "110096"
+        }
+      ],
       "id": 2
+    },
+    {
+      "email": "admin@gmail.com",
+      "password": "Admin1996",
+      "addresses": [],
+      "role": "admin",
+      "id": 3
     }
   ],
   "cart": [
     {
-      "title": "iPhone X",
-      "description": "SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with ...",
-      "price": 899,
-      "discountPercentage": 17.94,
-      "rating": 4.44,
-      "stock": 34,
+      "title": "MacBook Pro",
+      "description": "MacBook Pro 2021 with mini-LED display may launch between September, November",
+      "price": 1749,
+      "discountPercentage": 11.02,
+      "rating": 4.57,
+      "stock": 83,
       "brand": "Apple",
-      "category": "smartphones",
-      "thumbnail": "https://i.dummyjson.com/data/products/2/thumbnail.jpg",
+      "category": "laptops",
+      "thumbnail": "https://i.dummyjson.com/data/products/6/thumbnail.png",
       "images": [
-        "https://i.dummyjson.com/data/products/2/1.jpg",
-        "https://i.dummyjson.com/data/products/2/2.jpg",
-        "https://i.dummyjson.com/data/products/2/3.jpg",
-        "https://i.dummyjson.com/data/products/2/thumbnail.jpg"
+        "https://i.dummyjson.com/data/products/6/1.png",
+        "https://i.dummyjson.com/data/products/6/2.jpg",
+        "https://i.dummyjson.com/data/products/6/3.png",
+        "https://i.dummyjson.com/data/products/6/4.jpg"
       ],
-      "quantity": 1,
-      "user": 1,
+      "quantity": "2",
+      "user": 2,
+      "id": 6
+    }
+  ],
+  "orders": [
+    {
+      "items": [
+        {
+          "title": "iPhone 9",
+          "description": "An apple mobile which is nothing like apple",
+          "price": 549,
+          "discountPercentage": 12.96,
+          "rating": 4.69,
+          "stock": 94,
+          "brand": "Apple",
+          "category": "smartphones",
+          "thumbnail": "https://i.dummyjson.com/data/products/1/thumbnail.jpg",
+          "images": [
+            "https://i.dummyjson.com/data/products/1/1.jpg",
+            "https://i.dummyjson.com/data/products/1/2.jpg",
+            "https://i.dummyjson.com/data/products/1/3.jpg",
+            "https://i.dummyjson.com/data/products/1/4.jpg",
+            "https://i.dummyjson.com/data/products/1/thumbnail.jpg"
+          ],
+          "quantity": 1,
+          "user": 1,
+          "id": 1
+        },
+        {
+          "title": "iPhone X",
+          "description": "SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with ...",
+          "price": 899,
+          "discountPercentage": 17.94,
+          "rating": 4.44,
+          "stock": 34,
+          "brand": "Apple",
+          "category": "smartphones",
+          "thumbnail": "https://i.dummyjson.com/data/products/2/thumbnail.jpg",
+          "images": [
+            "https://i.dummyjson.com/data/products/2/1.jpg",
+            "https://i.dummyjson.com/data/products/2/2.jpg",
+            "https://i.dummyjson.com/data/products/2/3.jpg",
+            "https://i.dummyjson.com/data/products/2/thumbnail.jpg"
+          ],
+          "quantity": 1,
+          "user": 1,
+          "id": 2
+        },
+        {
+          "title": "iPhone 9",
+          "description": "An apple mobile which is nothing like apple",
+          "price": 549,
+          "discountPercentage": 12.96,
+          "rating": 4.69,
+          "stock": 94,
+          "brand": "Apple",
+          "category": "smartphones",
+          "thumbnail": "https://i.dummyjson.com/data/products/1/thumbnail.jpg",
+          "images": [
+            "https://i.dummyjson.com/data/products/1/1.jpg",
+            "https://i.dummyjson.com/data/products/1/2.jpg",
+            "https://i.dummyjson.com/data/products/1/3.jpg",
+            "https://i.dummyjson.com/data/products/1/4.jpg",
+            "https://i.dummyjson.com/data/products/1/thumbnail.jpg"
+          ],
+          "quantity": 1,
+          "user": 1,
+          "id": 4
+        },
+        {
+          "title": "3D Embellishment Art Lamp",
+          "description": "3D led lamp sticker Wall sticker 3d wall art light on/off button  cell operated (included)",
+          "price": 20,
+          "discountPercentage": 16.49,
+          "rating": 4.82,
+          "stock": 54,
+          "brand": "LED Lights",
+          "category": "home-decoration",
+          "thumbnail": "https://i.dummyjson.com/data/products/28/thumbnail.jpg",
+          "images": [
+            "https://i.dummyjson.com/data/products/28/1.jpg",
+            "https://i.dummyjson.com/data/products/28/2.jpg",
+            "https://i.dummyjson.com/data/products/28/3.png",
+            "https://i.dummyjson.com/data/products/28/4.jpg",
+            "https://i.dummyjson.com/data/products/28/thumbnail.jpg"
+          ],
+          "quantity": 1,
+          "user": 1,
+          "id": 5
+        }
+      ],
+      "totalItems": 4,
+      "payment": "cash",
+      "totalAmount": 2017,
+      "user": {
+        "email": "harvey@gmail.com",
+        "password": "Harvey96",
+        "addresses": [
+          {
+            "name": "Hary",
+            "email": "harvey@gmail.com",
+            "country": "India",
+            "city": "Delhi",
+            "street": "Mayur Vihar",
+            "phone": "3245243556",
+            "pinCode": "245234"
+          },
+          {
+            "name": "Mike",
+            "email": "harvey@gmail.com",
+            "country": "India",
+            "city": "Delhi",
+            "street": "Greater Kailash",
+            "phone": "565462352345",
+            "pinCode": "112323"
+          }
+        ],
+        "id": 1
+      },
+      "selectedAddress": {
+        "name": "Hary",
+        "email": "harvey@gmail.com",
+        "country": "India",
+        "city": "Delhi",
+        "street": "Mayur Vihar",
+        "phone": "3245243556",
+        "pinCode": "245234"
+      },
+      "status": "pending,",
       "id": 1
     },
     {
-      "title": "Samsung Universe 9",
-      "description": "Samsung's new variant which goes beyond Galaxy to the Universe",
-      "price": 1249,
-      "discountPercentage": 15.46,
-      "rating": 4.09,
-      "stock": 36,
-      "brand": "Samsung",
-      "category": "smartphones",
-      "thumbnail": "https://i.dummyjson.com/data/products/3/thumbnail.jpg",
-      "images": ["https://i.dummyjson.com/data/products/3/1.jpg"],
-      "quantity": 1,
-      "user": 1,
+      "items": [
+        {
+          "title": "3D Embellishment Art Lamp",
+          "description": "3D led lamp sticker Wall sticker 3d wall art light on/off button  cell operated (included)",
+          "price": 20,
+          "discountPercentage": 16.49,
+          "rating": 4.82,
+          "stock": 54,
+          "brand": "LED Lights",
+          "category": "home-decoration",
+          "thumbnail": "https://i.dummyjson.com/data/products/28/thumbnail.jpg",
+          "images": [
+            "https://i.dummyjson.com/data/products/28/1.jpg",
+            "https://i.dummyjson.com/data/products/28/2.jpg",
+            "https://i.dummyjson.com/data/products/28/3.png",
+            "https://i.dummyjson.com/data/products/28/4.jpg",
+            "https://i.dummyjson.com/data/products/28/thumbnail.jpg"
+          ],
+          "quantity": 1,
+          "user": 1,
+          "id": 5
+        },
+        {
+          "title": "MacBook Pro",
+          "description": "MacBook Pro 2021 with mini-LED display may launch between September, November",
+          "price": 1749,
+          "discountPercentage": 11.02,
+          "rating": 4.57,
+          "stock": 83,
+          "brand": "Apple",
+          "category": "laptops",
+          "thumbnail": "https://i.dummyjson.com/data/products/6/thumbnail.png",
+          "images": [
+            "https://i.dummyjson.com/data/products/6/1.png",
+            "https://i.dummyjson.com/data/products/6/2.jpg",
+            "https://i.dummyjson.com/data/products/6/3.png",
+            "https://i.dummyjson.com/data/products/6/4.jpg"
+          ],
+          "quantity": 1,
+          "user": 1,
+          "id": 7
+        }
+      ],
+      "totalItems": 2,
+      "payment": "cash",
+      "totalAmount": 1769,
+      "user": {
+        "email": "harvey@gmail.com",
+        "password": "Harvey96",
+        "addresses": [
+          {
+            "name": "Hary",
+            "email": "harvey@gmail.com",
+            "country": "India",
+            "city": "Delhi",
+            "street": "Mayur Vihar",
+            "phone": "3245243556",
+            "pinCode": "245234"
+          },
+          {
+            "name": "Mike",
+            "email": "harvey@gmail.com",
+            "country": "India",
+            "city": "Delhi",
+            "street": "Greater Kailash",
+            "phone": "565462352345",
+            "pinCode": "112323"
+          }
+        ],
+        "id": 1
+      },
+      "selectedAddress": {
+        "name": "Hary",
+        "email": "harvey@gmail.com",
+        "country": "India",
+        "city": "Delhi",
+        "street": "Mayur Vihar",
+        "phone": "3245243556",
+        "pinCode": "245234"
+      },
+      "status": "pending,",
       "id": 2
+    },
+    {
+      "items": [
+        {
+          "title": "3D Embellishment Art Lamp",
+          "description": "3D led lamp sticker Wall sticker 3d wall art light on/off button  cell operated (included)",
+          "price": 20,
+          "discountPercentage": 16.49,
+          "rating": 4.82,
+          "stock": 54,
+          "brand": "LED Lights",
+          "category": "home-decoration",
+          "thumbnail": "https://i.dummyjson.com/data/products/28/thumbnail.jpg",
+          "images": [
+            "https://i.dummyjson.com/data/products/28/1.jpg",
+            "https://i.dummyjson.com/data/products/28/2.jpg",
+            "https://i.dummyjson.com/data/products/28/3.png",
+            "https://i.dummyjson.com/data/products/28/4.jpg",
+            "https://i.dummyjson.com/data/products/28/thumbnail.jpg"
+          ],
+          "quantity": 1,
+          "user": 1,
+          "id": 5
+        },
+        {
+          "title": "MacBook Pro",
+          "description": "MacBook Pro 2021 with mini-LED display may launch between September, November",
+          "price": 1749,
+          "discountPercentage": 11.02,
+          "rating": 4.57,
+          "stock": 83,
+          "brand": "Apple",
+          "category": "laptops",
+          "thumbnail": "https://i.dummyjson.com/data/products/6/thumbnail.png",
+          "images": [
+            "https://i.dummyjson.com/data/products/6/1.png",
+            "https://i.dummyjson.com/data/products/6/2.jpg",
+            "https://i.dummyjson.com/data/products/6/3.png",
+            "https://i.dummyjson.com/data/products/6/4.jpg"
+          ],
+          "quantity": 1,
+          "user": 1,
+          "id": 7
+        },
+        {
+          "title": "Fog Scent Xpressio Perfume",
+          "description": "Product details of Best Fog Scent Xpressio Perfume 100ml For Men cool long lasting perfumes for Men",
+          "price": 13,
+          "discountPercentage": 8.14,
+          "rating": 4.59,
+          "stock": 61,
+          "brand": "Fog Scent Xpressio",
+          "category": "fragrances",
+          "thumbnail": "https://i.dummyjson.com/data/products/13/thumbnail.webp",
+          "images": [
+            "https://i.dummyjson.com/data/products/13/1.jpg",
+            "https://i.dummyjson.com/data/products/13/2.png",
+            "https://i.dummyjson.com/data/products/13/3.jpg",
+            "https://i.dummyjson.com/data/products/13/4.jpg",
+            "https://i.dummyjson.com/data/products/13/thumbnail.webp"
+          ],
+          "quantity": 1,
+          "user": 1,
+          "id": 8
+        },
+        {
+          "title": "sublimation plain kids tank",
+          "description": "sublimation plain kids tank tops wholesale",
+          "price": 100,
+          "discountPercentage": 11.12,
+          "rating": 4.8,
+          "stock": 20,
+          "brand": "Soft Cotton",
+          "category": "tops",
+          "thumbnail": "https://i.dummyjson.com/data/products/38/thumbnail.jpg",
+          "images": [
+            "https://i.dummyjson.com/data/products/38/1.png",
+            "https://i.dummyjson.com/data/products/38/2.jpg",
+            "https://i.dummyjson.com/data/products/38/3.jpg",
+            "https://i.dummyjson.com/data/products/38/4.jpg"
+          ],
+          "quantity": 1,
+          "user": 1,
+          "id": 15
+        }
+      ],
+      "totalItems": 4,
+      "payment": "cash",
+      "totalAmount": 1882,
+      "user": {
+        "email": "harvey@gmail.com",
+        "password": "Harvey96",
+        "addresses": [
+          {
+            "name": "Hary",
+            "email": "harvey@gmail.com",
+            "country": "India",
+            "city": "Delhi",
+            "street": "Mayur Vihar",
+            "phone": "3245243556",
+            "pinCode": "245234"
+          },
+          {
+            "name": "Mike",
+            "email": "harvey@gmail.com",
+            "country": "India",
+            "city": "Delhi",
+            "street": "Greater Kailash",
+            "phone": "565462352345",
+            "pinCode": "112323"
+          }
+        ],
+        "id": 1
+      },
+      "selectedAddress": {
+        "name": "Hary",
+        "email": "harvey@gmail.com",
+        "country": "India",
+        "city": "Delhi",
+        "street": "Mayur Vihar",
+        "phone": "3245243556",
+        "pinCode": "245234"
+      },
+      "status": "pending,",
+      "id": 3
+    },
+    {
+      "items": [
+        {
+          "title": "Fog Scent Xpressio Perfume",
+          "description": "Product details of Best Fog Scent Xpressio Perfume 100ml For Men cool long lasting perfumes for Men",
+          "price": 13,
+          "discountPercentage": 8.14,
+          "rating": 4.59,
+          "stock": 61,
+          "brand": "Fog Scent Xpressio",
+          "category": "fragrances",
+          "thumbnail": "https://i.dummyjson.com/data/products/13/thumbnail.webp",
+          "images": [
+            "https://i.dummyjson.com/data/products/13/1.jpg",
+            "https://i.dummyjson.com/data/products/13/2.png",
+            "https://i.dummyjson.com/data/products/13/3.jpg",
+            "https://i.dummyjson.com/data/products/13/4.jpg",
+            "https://i.dummyjson.com/data/products/13/thumbnail.webp"
+          ],
+          "quantity": 1,
+          "user": 1,
+          "id": 8
+        },
+        {
+          "title": "sublimation plain kids tank",
+          "description": "sublimation plain kids tank tops wholesale",
+          "price": 100,
+          "discountPercentage": 11.12,
+          "rating": 4.8,
+          "stock": 20,
+          "brand": "Soft Cotton",
+          "category": "tops",
+          "thumbnail": "https://i.dummyjson.com/data/products/38/thumbnail.jpg",
+          "images": [
+            "https://i.dummyjson.com/data/products/38/1.png",
+            "https://i.dummyjson.com/data/products/38/2.jpg",
+            "https://i.dummyjson.com/data/products/38/3.jpg",
+            "https://i.dummyjson.com/data/products/38/4.jpg"
+          ],
+          "quantity": 1,
+          "user": 1,
+          "id": 15
+        }
+      ],
+      "totalItems": 2,
+      "payment": "cash",
+      "totalAmount": 113,
+      "user": {
+        "email": "harvey@gmail.com",
+        "password": "Harvey96",
+        "addresses": [
+          {
+            "name": "Hary",
+            "email": "harvey@gmail.com",
+            "country": "India",
+            "city": "Delhi",
+            "street": "Mayur Vihar",
+            "phone": "3245243556",
+            "pinCode": "245234"
+          },
+          {
+            "name": "Mike",
+            "email": "harvey@gmail.com",
+            "country": "India",
+            "city": "Delhi",
+            "street": "Greater Kailash",
+            "phone": "565462352345",
+            "pinCode": "112323"
+          }
+        ],
+        "id": 1
+      },
+      "selectedAddress": {
+        "name": "Hary",
+        "email": "harvey@gmail.com",
+        "country": "India",
+        "city": "Delhi",
+        "street": "Mayur Vihar",
+        "phone": "3245243556",
+        "pinCode": "245234"
+      },
+      "status": "pending,",
+      "id": 4
     }
-  ],
-  "orders": []
+  ]
 }

@@ -29,6 +29,7 @@ import { useParams } from "react-router-dom";
 import { CurrencyRupeeIcon } from "@heroicons/react/20/solid";
 import { addToCartAsync } from "../cart/cartSlice";
 import { selectUserLoggedIn } from "../auth/authSlice";
+import { toast } from "react-hot-toast";
 
 const colors = [
   { name: "White", class: "bg-white", selectedClass: "ring-gray-400" },
@@ -65,6 +66,8 @@ export default function ProductOverview() {
     const newItem = { ...product, quantity: 1, user: user.id };
     delete newItem["id"];
     dispatch(addToCartAsync(newItem));
+
+    toast("Item added to the cart!");
   };
 
   useEffect(() => {

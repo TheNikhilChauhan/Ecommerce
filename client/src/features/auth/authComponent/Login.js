@@ -134,9 +134,9 @@ export default function Login() {
                 </span>
                 <span>
                   Forgot Password?
-                  {/* <Link className="text-red-500" to="/reset">
-                  Recover Now
-                </Link> */}
+                  <Link className="text-red-500" to="/forgot-password">
+                    Recover Now
+                  </Link>
                 </span>
               </div>
             </form>

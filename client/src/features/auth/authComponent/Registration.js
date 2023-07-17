@@ -49,6 +49,7 @@ export default function Registration() {
                     email: data.email,
                     password: data.password,
                     addresses: [],
+                    role: "user",
                   })
                 )
               )}

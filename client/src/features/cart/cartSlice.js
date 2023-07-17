@@ -4,11 +4,13 @@ import {
   deleteCartItems,
   fetchItemsByUserId,
   updateCart,
+  resetCart,
 } from "./cartAPI";
 
 const initialState = {
   status: "idle",
   items: [],
+  selectedIndex: null,
 };
 
 //Add to cart
@@ -49,11 +51,24 @@ export const deleteCartItemsAsync = createAsyncThunk(
   }
 );
 
+//reset cart items
+export const resetCartAsync = createAsyncThunk(
+  "cart/resetCart",
+  async (userId) => {
+    const response = await resetCart(userId);
+    return response.data;
+  }
+);
+
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
-  reducers: {},
+  reducers: {
+    setSelectedIndexx: (state, action) => {
+      state.selectedIndex = action.payload;
+    },
+  },
 
   extraReducers: (builder) => {
     builder
@@ -96,11 +111,22 @@ export const cartSlice = createSlice({
           (item) => item.id === action.payload.id
         );
         state.items.splice(index, 1);
+      })
+
+      //reset items from cart
+      .addCase(resetCartAsync.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(resetCartAsync.fulfilled, (state, action) => {
+        state.status = "idle";
+        state.items = [];
       });
   },
 });
 
-export const { increment } = cartSlice.actions;
+export const { setSelectedIndex } = cartSlice.actions;
+
+export const selectSelectedIndex = (state) => state.cart.selectedIndex;
 
 export const selectItems = (state) => state.cart.items;
 
