@@ -8,6 +8,7 @@ import Navbar from "../../navbar/Navbar";
 import { useForm } from "react-hook-form";
 import { checkUserAsync, selectError, selectUserLoggedIn } from "../authSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { selectUserInfo } from "../../user/userSlice";
 
 export default function Login() {
   const {
@@ -53,6 +54,7 @@ export default function Login() {
   return (
     <div>
       {user && <Navigate to="/" replace={true}></Navigate>}
+
       <div className="container mx-auto">
         <div className="flex justify-center items-center h-screen ">
           <div className={styles.glass}>
@@ -71,8 +73,7 @@ export default function Login() {
                   checkUserAsync({
                     email: data.email,
                     password: data.password,
-                  }),
-                  console.log(data)
+                  })
                 )
               )}
             >

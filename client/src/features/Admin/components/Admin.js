@@ -14,8 +14,8 @@ export default function Admin() {
           <ul className="list-reset flex items-center px-4 ">
             <li className="mr-6 my-2 md:my-0 focus:text-orange-600">
               <NavLink
-                to="/dashboard/admin/create-category"
-                className="block py-1 md:py-3 pl-1 align-middle no-underline hover:text-gray-900 border-b-2 border-white hover:border-orange-600 "
+                to="/admin/product-list"
+                className="block py-1 md:py-3 pl-1 align-middle no-underline hover:text-gray-900 border-b-2 border-white focus:border-orange-600 selection:text-orange-600 s"
               >
                 <i className="fas fa-home fa-fw mr-3 "></i>
                 <span className="pb-1 md:pb-0 text-sm ">Product List</span>
@@ -24,11 +24,11 @@ export default function Admin() {
 
             <li className="mr-6 my-2 md:my-0 focus:text-orange-600">
               <NavLink
-                to="/dashboard/admin/create-product"
-                className="block py-1 md:py-3 pl-1 align-middle text-gray-500 no-underline hover:text-gray-900 border-b-2 border-white hover:border-pink-500 "
+                to="/admin/product-form"
+                className="block py-1 md:py-3 pl-1 align-middle text-gray-500 no-underline hover:text-gray-900 border-b-2 border-white hover:border-pink-500  "
               >
                 <i className="fas fa-tasks fa-fw mr-3"></i>
-                <span className="pb-1 md:pb-0 text-sm ">Create Product</span>
+                <span className="pb-1 md:pb-0 text-sm ">Add New Product</span>
               </NavLink>
             </li>
 

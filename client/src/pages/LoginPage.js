@@ -4,6 +4,7 @@ import Navbar from "../features/navbar/Navbar";
 export default function LoginPage() {
   return (
     <div>
+      <Navbar />
       <Login></Login>
     </div>
   );

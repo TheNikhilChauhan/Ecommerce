@@ -1,14 +1,14 @@
 import React from "react";
 import Navbar from "../features/navbar/Navbar";
-import Checkout from "../features/cart/Checkout";
+import UserOrder from "../features/user/userOrder";
 
-const CheckoutPage = () => {
+const UserOrdersPage = () => {
   return (
     <div>
       <Navbar />
-      <Checkout />
+      <UserOrder />
     </div>
   );
 };
 
-export default CheckoutPage;
+export default UserOrdersPage;

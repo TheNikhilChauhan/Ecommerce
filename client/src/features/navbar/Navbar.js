@@ -57,7 +57,6 @@ const Navbar = ({ children }) => {
                       aria-expanded="true"
                       aria-haspopup="true"
                     >
-                      {/* {user.addresses.name} */}
                       <svg
                         className="-mr-1 h-5 w-5 text-gray-400"
                         viewBox="0 0 20 20"
@@ -80,12 +79,20 @@ const Navbar = ({ children }) => {
                       aria-labelledby="menu-button"
                       tabindex="-1"
                     >
-                      <li className="text-black  hover: p-2 hover: border-gray-400 hover: border-solid hover:border-2 active:text-yellow-200">
-                        <NavLink to={"/user-orders"}>Your Orders</NavLink>
-                      </li>
-                      <li className="text-black  hover: p-2 hover: border-gray-400 hover: border-solid hover:border-2 active:text-yellow-200">
-                        <NavLink to={"/user-profile"}>Profile</NavLink>
-                      </li>
+                      {user.role === "admin" ? (
+                        <li className="text-black  hover: p-2 hover: border-gray-400 hover: border-solid hover:border-2 active:text-yellow-200">
+                          <NavLink to={"/admin"}>Admin Dashboard</NavLink>
+                        </li>
+                      ) : (
+                        <>
+                          <li className="text-black  hover: p-2 hover: border-gray-400 hover: border-solid hover:border-2 active:text-yellow-200">
+                            <NavLink to={"/user-orders"}>Your Orders</NavLink>
+                          </li>
+                          <li className="text-black  hover: p-2 hover: border-gray-400 hover: border-solid hover:border-2 active:text-yellow-200">
+                            <NavLink to={"/user-profile"}>Profile</NavLink>
+                          </li>
+                        </>
+                      )}
                     </div>
                   )}
                 </div>
@@ -109,6 +116,7 @@ const Navbar = ({ children }) => {
             )}
           </li>
         </ul>
+
         <main>
           <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
             {children}

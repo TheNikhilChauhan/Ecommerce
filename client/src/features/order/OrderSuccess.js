@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectUserLoggedIn } from "../features/auth/authSlice";
-import { resetCartAsync, selectItems } from "../features/cart/cartSlice";
+import { selectUserLoggedIn } from "../../features/auth/authSlice";
+import { resetCartAsync, selectItems } from "../../features/cart/cartSlice";
 import { CurrencyRupeeIcon } from "@heroicons/react/24/outline";
 import { Navigate, useParams } from "react-router-dom";
-import { resetCart } from "../features/cart/cartAPI";
-import { resetOrder } from "../features/order/orderSlice";
-import { selectUserOrders } from "../features/user/userSlice";
+import { resetCart } from "../../features/cart/cartAPI";
+import { resetOrder } from "../../features/order/orderSlice";
+import { selectUserOrders } from "../../features/user/userSlice";
 
 const OrderSuccess = () => {
   const dispatch = useDispatch();
