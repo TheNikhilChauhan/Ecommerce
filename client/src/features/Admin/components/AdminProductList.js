@@ -23,7 +23,7 @@ import {
   selectAllProducts,
   selectTotalPages,
 } from "../../product/ProductSlice";
-import { PAGE_PRODUCTS } from "../../../app/constant";
+import { PAGE_PRODUCTS, discountPrice } from "../../../app/constant";
 import Admin from "./Admin";
 import { selectUserInfo } from "../../user/userSlice";
 
@@ -435,9 +435,7 @@ function ProductGrid({ products }) {
                     <div>
                       <p className="text-sm  font-medium text-gray-900">
                         <CurrencyRupeeIcon className="w-6 h-6 inline "></CurrencyRupeeIcon>
-                        {Math.round(
-                          product.price * (1 - product.discountPercentage / 100)
-                        )}
+                        {discountPrice(product)}
                       </p>
                       <p className="text-sm line-through font-medium text-gray-400">
                         <CurrencyRupeeIcon className="w-6 h-6 inline"></CurrencyRupeeIcon>

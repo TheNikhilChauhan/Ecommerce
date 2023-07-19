@@ -15,10 +15,12 @@ export default function Admin() {
             <li className="mr-6 my-2 md:my-0 focus:text-orange-600">
               <NavLink
                 to="/admin/product-list"
-                className="block py-1 md:py-3 pl-1 align-middle no-underline hover:text-gray-900 border-b-2 border-white focus:border-orange-600 selection:text-orange-600 s"
+                className="block py-1 md:py-3 pl-1 align-middle no-underline text-gray-500 border-b-2 hover:text-gray-900 border-white hover:border-orange-600 selection:text-orange-600 s"
               >
                 <i className="fas fa-home fa-fw mr-3 "></i>
-                <span className="pb-1 md:pb-0 text-sm ">Product List</span>
+                <span className="pb-1 md:pb-0 text-md font-medium  ">
+                  Product List
+                </span>
               </NavLink>
             </li>
 
@@ -28,17 +30,19 @@ export default function Admin() {
                 className="block py-1 md:py-3 pl-1 align-middle text-gray-500 no-underline hover:text-gray-900 border-b-2 border-white hover:border-pink-500  "
               >
                 <i className="fas fa-tasks fa-fw mr-3"></i>
-                <span className="pb-1 md:pb-0 text-sm ">Add New Product</span>
+                <span className="pb-1 md:pb-0 text-md font-medium ">
+                  Add New Product
+                </span>
               </NavLink>
             </li>
 
             <li className="mr-6 my-2 md:my-0">
               <NavLink
-                to="/dashboard/admin/users"
+                to="/admin/orders"
                 className="block py-1 md:py-3 pl-1 align-middle text-gray-500 no-underline hover:text-gray-900 border-b-2 border-white hover:border-purple-500"
               >
                 <i className="fa fa-envelope fa-fw mr-3"></i>
-                <span className="pb-1 md:pb-0 text-sm">Users</span>
+                <span className="pb-1 md:pb-0 text-md font-medium">Orders</span>
               </NavLink>
             </li>
 
@@ -63,7 +67,7 @@ export default function Admin() {
             </li>
           </ul>
 
-          <div className="flex pull-right pl-4 pr-4 md:pr-0">
+          {/* <div className="flex pull-right pl-4 pr-4 md:pr-0">
             <input
               type="search"
               placeholder="Search"
@@ -78,7 +82,7 @@ export default function Admin() {
                 <path d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"></path>
               </svg>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

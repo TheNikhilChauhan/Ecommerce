@@ -37,6 +37,8 @@ import AdminPage from "./pages/AdminPage";
 import ProtectedAdmin from "./features/auth/authComponent/ProtectedAdmin";
 import AdminProductListPage from "./pages/AdminProductListPage";
 import AdminProductForm from "./pages/AdminProductForm";
+import AdminUserProductPage from "./pages/AdminUserProductPage";
+import AdminOrderPage from "./pages/AdminOrderPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -79,6 +81,22 @@ function App() {
       element: (
         <ProtectedAdmin>
           <AdminProductForm></AdminProductForm>
+        </ProtectedAdmin>
+      ),
+    },
+    /* {
+      path: "/admin/user-products",
+      element: (
+        <ProtectedAdmin>
+          <AdminUserProductPage></AdminUserProductPage>
+        </ProtectedAdmin>
+      ),
+    }, */
+    {
+      path: "/admin/orders",
+      element: (
+        <ProtectedAdmin>
+          <AdminOrderPage></AdminOrderPage>
         </ProtectedAdmin>
       ),
     },

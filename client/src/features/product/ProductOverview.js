@@ -29,7 +29,8 @@ import { useParams } from "react-router-dom";
 import { CurrencyRupeeIcon } from "@heroicons/react/20/solid";
 import { addToCartAsync } from "../cart/cartSlice";
 import { selectUserLoggedIn } from "../auth/authSlice";
-import { toast } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
+import { discountPrice } from "../../app/constant";
 
 const colors = [
   { name: "White", class: "bg-white", selectedClass: "ring-gray-400" },
@@ -67,7 +68,7 @@ export default function ProductOverview() {
     delete newItem["id"];
     dispatch(addToCartAsync(newItem));
 
-    toast("Item added to the cart!");
+    toast.success("Item added to the cart!");
   };
 
   useEffect(() => {
@@ -163,9 +164,13 @@ export default function ProductOverview() {
               {/* Options */}
               <div className="mt-4 lg:row-span-3 lg:mt-0">
                 <h2 className="sr-only">Product information</h2>
-                <p className="text-3xl tracking-tight text-gray-900">
+                <p className="text-3xl line-through tracking-tight text-gray-900">
                   <CurrencyRupeeIcon className="w-9 h-15 inline"></CurrencyRupeeIcon>
                   {product.price}
+                </p>
+                <p className="text-3xl tracking-tight text-gray-900">
+                  <CurrencyRupeeIcon className="w-9 h-15 inline"></CurrencyRupeeIcon>
+                  {discountPrice(product)}
                 </p>
 
                 {/* Reviews */}
@@ -198,7 +203,7 @@ export default function ProductOverview() {
 
                 <form className="mt-10">
                   {/* Colors */}
-                  <div>
+                  {/*  <div>
                     <h3 className="text-sm font-medium text-gray-900">Color</h3>
 
                     <RadioGroup
@@ -237,10 +242,10 @@ export default function ProductOverview() {
                         ))}
                       </div>
                     </RadioGroup>
-                  </div>
+                  </div> */}
 
                   {/* Sizes */}
-                  <div className="mt-10">
+                  {/* <div className="mt-10">
                     <div className="flex items-center justify-between">
                       <h3 className="text-sm font-medium text-gray-900">
                         Size
@@ -320,7 +325,7 @@ export default function ProductOverview() {
                         ))}
                       </div>
                     </RadioGroup>
-                  </div>
+                  </div> */}
 
                   <button
                     type="submit"

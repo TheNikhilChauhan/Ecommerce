@@ -9,6 +9,7 @@ import {
 } from "./userSlice";
 import { selectItems } from "../cart/cartSlice";
 import { CurrencyRupeeIcon } from "@heroicons/react/20/solid";
+import { discountPrice } from "../../app/constant";
 
 const UserOrder = () => {
   const orders = useSelector(selectUserOrders);
@@ -16,11 +17,6 @@ const UserOrder = () => {
   const status = useSelector(selectUserInfoStatus);
   const user = useSelector(selectUserInfo);
   const items = useSelector(selectItems);
-
-  const totalAmount = items.reduce(
-    (amount, item) => item.price * item.quantity + amount,
-    0
-  );
 
   const month = [
     "January",
@@ -39,6 +35,7 @@ const UserOrder = () => {
   let date = new Date();
 
   useEffect(() => {
+    console.log(user.id);
     dispatch(fetchUserOrdersAsync(user.id));
   }, [dispatch, user]);
 
@@ -67,7 +64,7 @@ const UserOrder = () => {
                               <div className=" w-full sm:w-1/2 md:w-1/3 mr-32">
                                 <p className="font-bold">Date placed</p>
                                 <p>
-                                  {date.getDate()},{month[date.getMonth()]},
+                                  {date.getDate()}/{month[date.getMonth()]}/
                                   {date.getFullYear()}
                                 </p>
                               </div>
@@ -119,7 +116,7 @@ const UserOrder = () => {
                                     <div>
                                       <div className="mt-20">
                                         <CurrencyRupeeIcon className="w-9 h-15 inline"></CurrencyRupeeIcon>
-                                        {item.price}
+                                        {discountPrice(item)}
                                       </div>
                                     </div>
                                     <div>

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
+
 import { useDispatch, useSelector } from "react-redux";
 import {
   clearSelectedProduct,
@@ -95,10 +95,10 @@ export default function ProductForm() {
           <h2 className="flex text-base font-semibold leading-7 text-gray-900">
             Add Product
           </h2>
-          <p className=" flex mt-1 text-sm leading-6 text-gray-600">
+          {/* <p className=" flex mt-1 text-sm leading-6 text-gray-600">
             This information will be displayed publicly so be careful what you
             share.
-          </p>
+          </p> */}
 
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div className="sm:col-span-4">

@@ -17,12 +17,6 @@ export default function Registration() {
   } = useForm();
   const dispatch = useDispatch();
   const user = useSelector(selectUserLoggedIn);
-  /* const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [phone, setPhone] = useState(""); */
-
-  /* const navigate = useNavigate() */
 
   return (
     <div>

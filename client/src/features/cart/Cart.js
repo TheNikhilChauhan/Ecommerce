@@ -7,13 +7,14 @@ import {
 } from "./cartSlice";
 import { Link, Navigate } from "react-router-dom";
 import { CurrencyRupeeIcon } from "@heroicons/react/20/solid";
+import { discountPrice } from "../../app/constant";
 
 export default function Cart() {
   const dispatch = useDispatch();
 
   const items = useSelector(selectItems);
   const totalAmount = items.reduce(
-    (amount, item) => item.price * item.quantity + amount,
+    (amount, item) => discountPrice(item) * item.quantity + amount,
     0
   );
   const totalItems = items.reduce((total, item) => item.quantity + total, 0);
@@ -55,7 +56,7 @@ export default function Cart() {
                           </h3>
                           <p className="ml-4">
                             <CurrencyRupeeIcon className="w-9 h-15 inline"></CurrencyRupeeIcon>
-                            {item.price}
+                            {discountPrice(item)}
                           </p>
                         </div>
                         <p className="mt-1 text-sm text-gray-500">

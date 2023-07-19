@@ -18,6 +18,7 @@ import {
 } from "../../features/order/orderSlice";
 import { selectUserInfo } from "../../features/user/userSlice";
 import Navbar from "../../features/navbar/Navbar";
+import { discountPrice } from "../../app/constant";
 
 const Checkout = () => {
   const [menu, setMenu] = useState(false);
@@ -41,7 +42,7 @@ const Checkout = () => {
 
   const items = useSelector(selectItems);
   const totalAmount = items.reduce(
-    (amount, item) => item.price * item.quantity + amount,
+    (amount, item) => discountPrice(item) * item.quantity + amount,
     0
   );
   const totalItems = items.reduce((total, item) => item.quantity + total, 0);
@@ -170,7 +171,7 @@ const Checkout = () => {
                                   </h3>
                                   <p className="ml-4">
                                     <CurrencyRupeeIcon className="w-9 h-15 inline"></CurrencyRupeeIcon>
-                                    {item.price}
+                                    {discountPrice(item)}
                                   </p>
                                 </div>
                                 <p className="mt-1 text-sm text-gray-500">

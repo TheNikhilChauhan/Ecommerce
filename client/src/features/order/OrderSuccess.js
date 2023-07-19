@@ -4,9 +4,13 @@ import { selectUserLoggedIn } from "../../features/auth/authSlice";
 import { resetCartAsync, selectItems } from "../../features/cart/cartSlice";
 import { CurrencyRupeeIcon } from "@heroicons/react/24/outline";
 import { Navigate, useParams } from "react-router-dom";
-import { resetCart } from "../../features/cart/cartAPI";
+
 import { resetOrder } from "../../features/order/orderSlice";
-import { selectUserOrders } from "../../features/user/userSlice";
+import {
+  fetchUserOrdersAsync,
+  selectUserOrders,
+} from "../../features/user/userSlice";
+import { discountPrice } from "../../app/constant";
 
 const OrderSuccess = () => {
   const dispatch = useDispatch();
@@ -15,19 +19,20 @@ const OrderSuccess = () => {
   const params = useParams();
   const orders = useSelector(selectUserOrders);
 
-  const totalAmount = items.reduce(
-    (amount, item) => item.price * item.quantity + amount,
-    0
-  );
-
   useEffect(() => {
     dispatch(resetCartAsync(user.id)); //reset cart
     dispatch(resetOrder()); //reset current order
   }, [dispatch, user]);
 
+  useEffect(() => {
+    console.log(user.id);
+    dispatch(fetchUserOrdersAsync(user.id));
+  }, [dispatch, user]);
+
   return (
     <div>
       {!params.id && <Navigate to="/" replace={true}></Navigate>}
+      {console.log("this is order", orders)}
       {orders.map((order) => (
         <div className="max-w-lg mx-auto bg-white shadow-lg p-6 rounded-lg text-left">
           <h2 className="text-lg text-left font-semibold text-blue-600 mb-3">
@@ -37,41 +42,57 @@ const OrderSuccess = () => {
           <p className="mb-12 text-md text-gray-500">
             Your order #{params?.id} has shipped and will be with you soon.
           </p>
-          <h3 className="text-sm font-semibold mb-4">Tracking number</h3>
+          {/* <h3 className="text-sm font-semibold mb-4">Tracking number</h3>
           <p className="mb-6 text-blue-700 font-medium">
             {Math.floor(Math.random() * 100000000000)}
-          </p>
+          </p> */}
 
           <div className="border-t border-gray-300 pt-6 pb-4 flex flex-col">
             {order.items.map((item) => (
-              <li key={item.id} className="flex py-6">
-                <div className=" flex h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                  <img
-                    src={item.thumbnail}
-                    alt={item.title}
-                    className="h-full w-full object-cover object-center"
-                  />
-                </div>
-                <div className="flex flex-col ml-4">
-                  <div className="mb-6 font-semibold">{item.title}</div>
-                  <div className="mb-6">{item.title}</div>
-
-                  <div className="grid grid-cols-2 gap-x-4 gap-y-2">
-                    <div>
-                      <h3 className="text-lg font-semibold mb-2">Quantity</h3>
-                      <p>{item.quantity}</p>
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold mb-2">Price</h3>
-                      <p>
-                        <CurrencyRupeeIcon className="w-9 h-15 inline"></CurrencyRupeeIcon>
-                        {item.price}
-                      </p>
-                    </div>
+              <>
+                <li key={item.id} className="flex py-6">
+                  <div className=" flex h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                    <img
+                      src={item.thumbnail}
+                      alt={item.title}
+                      className="h-full w-full object-cover object-center"
+                    />
                   </div>
-                  <hr className="border-t border-gray-300 mt-6 pb-4 flex flex-col" />
+                  <div className="flex flex-col ml-4">
+                    <div className="mb-6 font-semibold">{item.title}</div>
+                    <div className="mb-6">{item.title}</div>
+
+                    <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+                      <div>
+                        <h3 className="text-lg font-semibold mb-2">Quantity</h3>
+                        <p>{item.quantity}</p>
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold mb-2">Price</h3>
+                        <p>
+                          <CurrencyRupeeIcon className="w-9 h-15 inline"></CurrencyRupeeIcon>
+                          {discountPrice(item)}
+                        </p>
+                      </div>
+                    </div>
+                    <hr className="border-t border-gray-300 mt-6 pb-4 flex flex-col" />
+                  </div>
+                </li>
+                <h3 className="text-lg font-semibold mt-6 mb-4">Summary</h3>
+                <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+                  <div>
+                    <h4 className="text-md font-semibold mb-2">Subtotal</h4>
+                    <p>
+                      <CurrencyRupeeIcon className="w-9 h-15 inline"></CurrencyRupeeIcon>
+                      {discountPrice(item) * item.quantity}
+                    </p>
+                  </div>
                 </div>
-              </li>
+                <div>
+                  <h4 className="text-md font-semibold mb-2">Shipping</h4>
+                  <p>Free</p>
+                </div>
+              </>
             ))}
             <h3 className="text-lg font-semibold mt-6 mb-4">
               Your information
@@ -113,22 +134,6 @@ const OrderSuccess = () => {
                 <p>DHL</p>
                 <p>Takes up to 3 working days</p>
               </div>
-            </div>
-
-            <h3 className="text-lg font-semibold mt-6 mb-4">Summary</h3>
-
-            <div className="grid grid-cols-2 gap-x-4 gap-y-2">
-              <div>
-                <h4 className="text-md font-semibold mb-2">Subtotal</h4>
-                <p>
-                  <CurrencyRupeeIcon className="w-9 h-15 inline"></CurrencyRupeeIcon>
-                  {totalAmount}
-                </p>
-              </div>
-            </div>
-            <div>
-              <h4 className="text-md font-semibold mb-2">Shipping</h4>
-              <p>Free</p>
             </div>
           </div>
         </div>
