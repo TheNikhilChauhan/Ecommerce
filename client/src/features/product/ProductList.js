@@ -1,17 +1,3 @@
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
 import { Fragment, useEffect, useState } from "react";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
@@ -35,10 +21,12 @@ import {
   selectAllBrands,
   selectAllCategories,
   selectAllProducts,
+  selectLoader,
   selectTotalPages,
 } from "./ProductSlice";
 import { PAGE_PRODUCTS, discountPrice } from "../../app/constant";
 import Pagination from "../common/Pagination";
+import { InfinitySpin } from "react-loader-spinner";
 
 const sortOptions = [
   { name: "Best Rating", sort: "rating", order: "desc", current: false },
@@ -60,6 +48,7 @@ export default function ProductList() {
   const brands = useSelector(selectAllBrands);
   const category = useSelector(selectAllCategories);
   const totalPages = useSelector(selectTotalPages);
+  const status = useSelector(selectLoader);
 
   //filter | brands and categories
   const filters = [
@@ -213,7 +202,7 @@ export default function ProductList() {
 
               {/* Product grid */}
               <div className="lg:col-span-3">
-                <ProductGrid products={products}></ProductGrid>
+                <ProductGrid products={products} status={status}></ProductGrid>
                 <Pagination
                   page={page}
                   setPage={setPage}
@@ -404,13 +393,16 @@ function DesktopFilter({ filters, handleFilter }) {
   );
 }
 
-function ProductGrid({ products }) {
+function ProductGrid({ products, status }) {
   return (
     <div className=" bg-slate-300">
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 md:py-4 md:px-9 lg:max-w-7xl lg:px-7">
         <h2 className="text-2xl font-bold tracking-tight text-gray-900">
           Products
         </h2>
+        {status === "loading" ? (
+          <InfinitySpin width="200" color="#4fa94d" />
+        ) : null}
 
         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
           {products.map((product) => (

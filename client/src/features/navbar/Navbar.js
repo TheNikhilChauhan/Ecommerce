@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-
+import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { selectItems } from "../cart/cartSlice";
 import { selectUserLoggedIn } from "../auth/authSlice";
-import { fetchLoggedInUser } from "../user/userAPI";
+
 import { selectUserInfo } from "../user/userSlice";
 
 const Navbar = ({ children }) => {
@@ -43,7 +43,12 @@ const Navbar = ({ children }) => {
             </>
           ) : (
             <>
-              <li className="hover: p-2 hover: border-gray-400 hover: border-solid hover:border-2 active:text-yellow-200">
+              <li
+                onClick={() => {
+                  toast.success("Successfully LoggedOut!!");
+                }}
+                className="hover: p-2 hover: border-gray-400 hover: border-solid hover:border-2 active:text-yellow-200"
+              >
                 <NavLink to={"/logout"}>Logout</NavLink>{" "}
               </li>
               <li>

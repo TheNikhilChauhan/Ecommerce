@@ -1,6 +1,6 @@
 import { React, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-import { toast } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 import styles from "../../../styles/Username.module.css";
 import { useForm } from "react-hook-form";
 import { selectUserLoggedIn, createUserAsync } from "../authSlice";
@@ -80,11 +80,17 @@ export default function Registration() {
                   })}
                   placeholder="Password"
                   className={styles.textbox}
-
-                  /* onChange={(e) => setPassword(e.target.value)} */
                 />
+
                 {errors.password && (
-                  <p className="text-red-500">{errors.password.message}</p>
+                  <p
+                    className="text-red-500"
+                    onClick={() => {
+                      toast.error(
+                        `- at least 8 characters \n - must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number \n - Can contain special characters`
+                      );
+                    }}
+                  ></p>
                 )}
 
                 <input
@@ -109,6 +115,9 @@ export default function Registration() {
                 <button
                   className="border bg-indigo-500 w-3/4 py-4 rounded-lg text-gray-50 text-xl shadow-sm text-center hover:bg-red-500"
                   type="submit"
+                  onClick={() => {
+                    toast.success("Successfully Registered!");
+                  }}
                 >
                   Register
                 </button>

@@ -1,22 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   deleteCartItemsAsync,
+  selectCartLoader,
   selectItems,
   updateCartAsync,
 } from "./cartSlice";
 import { Link, Navigate } from "react-router-dom";
 import { CurrencyRupeeIcon } from "@heroicons/react/20/solid";
 import { discountPrice } from "../../app/constant";
+import { InfinitySpin } from "react-loader-spinner";
+import DeleteModal from "../common/DeleteModal";
 
 export default function Cart() {
   const dispatch = useDispatch();
-
+  const status = useSelector(selectCartLoader);
   const items = useSelector(selectItems);
   const totalAmount = items.reduce(
     (amount, item) => discountPrice(item) * item.quantity + amount,
     0
   );
+
+  const [openModal, setOpenModal] = useState(null);
   const totalItems = items.reduce((total, item) => item.quantity + total, 0);
 
   const handleQuantity = (e, item) => {
@@ -30,6 +35,7 @@ export default function Cart() {
   return (
     <div>
       {!items.length && <Navigate to="/" replace={true}></Navigate>}
+
       <div>
         <div className="p-4  bg-slate-100 mt-7 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 ">
           <h1 className="text-center font-bold text-2xl underline text-gray-700">
@@ -37,6 +43,9 @@ export default function Cart() {
           </h1>
           <div className="mt-8 ml-6 mr-6">
             <div className="flow-root ">
+              {status === "loading" ? (
+                <InfinitySpin width="200" color="#4fa94d" />
+              ) : null}
               <ul role="list" className="-my-6 divide-y divide-gray-300 mb-2">
                 {items.map((item) => (
                   <li key={item.id} className="flex py-6">
@@ -79,10 +88,20 @@ export default function Cart() {
                         </div>
 
                         <div className="flex">
+                          <DeleteModal
+                            title={`Deleting ${item.title} `}
+                            message="Are you sure you want to Delete this Item?"
+                            deleteOption="Remove this Item"
+                            cancelOption="Cancel"
+                            handleAction={(e) => handleRemove(e, item.id)}
+                            showModal={openModal === item.id}
+                            cancelAction={() => setOpenModal(-1)}
+                          ></DeleteModal>
                           <button
+                            onClick={(e) => setOpenModal(item.id)}
                             type="button"
-                            onClick={(e) => handleRemove(e, item.id)}
-                            className="font-medium text-indigo-600 hover:text-indigo-500"
+                            className="font-medium text-indigo-600
+                          hover:text-indigo-500"
                           >
                             Remove
                           </button>

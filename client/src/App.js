@@ -28,7 +28,7 @@ import { Logout } from "./features/auth/authComponent/Logout";
 import ForgotPasswordPAge from "./pages/ForgotPasswordPAge";
 import AdminProductList from "./features/Admin/components/AdminProductList";
 import Admin from "./features/Admin/components/Admin";
-import AdminNavbar from "./features/Admin/AdminNavbar";
+
 import UserOrdersPage from "./pages/UserOrdersPage";
 import UserProfilePage from "./pages/UserProfilePage";
 import ProductOverviewPage from "./pages/ProductOverviewPage";
@@ -39,6 +39,7 @@ import AdminProductListPage from "./pages/AdminProductListPage";
 import AdminProductForm from "./pages/AdminProductForm";
 import AdminUserProductPage from "./pages/AdminUserProductPage";
 import AdminOrderPage from "./pages/AdminOrderPage";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const dispatch = useDispatch();
@@ -183,6 +184,7 @@ function App() {
   return (
     <div className="App">
       <RouterProvider router={router} />
+      <Toaster />
     </div>
   );
 }

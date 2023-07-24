@@ -1,29 +1,12 @@
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    theme: {
-      extend: {
-        gridTemplateRows: {
-          '[auto,auto,1fr]': 'auto auto 1fr',
-        },
-      },
-    },
-    plugins: [
-      // ...
-      require('@tailwindcss/aspect-ratio'),
-    ],
-  }
-  ```
-*/
 import { useEffect, useState } from "react";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { RadioGroup } from "@headlessui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchSingleProductAsync, selectSingleProduct } from "./ProductSlice";
+import {
+  fetchSingleProductAsync,
+  selectLoader,
+  selectSingleProduct,
+} from "./ProductSlice";
 
 import { useParams } from "react-router-dom";
 import { CurrencyRupeeIcon } from "@heroicons/react/20/solid";
@@ -31,6 +14,7 @@ import { addToCartAsync } from "../cart/cartSlice";
 import { selectUserLoggedIn } from "../auth/authSlice";
 import { Toaster, toast } from "react-hot-toast";
 import { discountPrice } from "../../app/constant";
+import { InfinitySpin } from "react-loader-spinner";
 
 const colors = [
   { name: "White", class: "bg-white", selectedClass: "ring-gray-400" },
@@ -61,6 +45,7 @@ export default function ProductOverview() {
   const dispatch = useDispatch();
   const params = useParams();
   const user = useSelector(selectUserLoggedIn);
+  const status = useSelector(selectLoader);
 
   const handleCart = (e) => {
     e.preventDefault();
@@ -68,7 +53,7 @@ export default function ProductOverview() {
     delete newItem["id"];
     dispatch(addToCartAsync(newItem));
 
-    toast.success("Item added to the cart!");
+    toast.success("Item added to cart!");
   };
 
   useEffect(() => {
@@ -77,6 +62,9 @@ export default function ProductOverview() {
   return (
     <div>
       <div className="bg-white">
+        {status === "loading" ? (
+          <InfinitySpin width="200" color="#4fa94d" />
+        ) : null}
         {product ? (
           <div className="pt-6">
             <nav aria-label="Breadcrumb">

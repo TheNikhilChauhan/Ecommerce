@@ -6,6 +6,7 @@ import { Navigate } from "react-router-dom";
 export const Logout = () => {
   const dispatch = useDispatch();
   const user = useSelector(selectUserLoggedIn);
+
   useEffect(() => {
     dispatch(logoutAsync());
   });

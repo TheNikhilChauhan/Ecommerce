@@ -1,8 +1,8 @@
 import { React, useState } from "react";
-
+import { Toaster, toast } from "react-hot-toast";
 import styles from "../../../styles/Username.module.css";
 import { Link, Navigate } from "react-router-dom";
-import toast from "react-hot-toast";
+
 import axios from "axios";
 import Navbar from "../../navbar/Navbar";
 import { useForm } from "react-hook-form";
@@ -91,7 +91,14 @@ export default function Login() {
                   className={styles.textbox}
                 />
                 {errors.email && (
-                  <p className="text-red-500">{errors.email.message}</p>
+                  <p
+                    onClick={() => {
+                      toast.success("Successfully LoggedIn!");
+                    }}
+                    className="text-red-500"
+                  >
+                    {errors.email.message}
+                  </p>
                 )}
 
                 <input
@@ -106,7 +113,11 @@ export default function Login() {
                   })}
                   placeholder="Password"
                   className={styles.textbox}
-
+                  onClick={() => {
+                    toast.error(
+                      `- at least 8 characters \n - must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number \n - Can contain special characters`
+                    );
+                  }}
                   /*  onChange={(e) => setPassword(e.target.value)} */
                 />
 
@@ -122,6 +133,9 @@ export default function Login() {
                 <button
                   className="border bg-indigo-500 w-3/4 py-4 rounded-lg text-gray-50 text-xl shadow-sm text-center hover:bg-red-500"
                   type="submit"
+                  onClick={() => {
+                    toast.success("Successfully LoggedIn!");
+                  }}
                 >
                   Let's Go
                 </button>

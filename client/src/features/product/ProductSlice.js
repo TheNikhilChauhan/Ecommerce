@@ -172,5 +172,6 @@ export const selectAllCategories = (state) => state.product.category;
 export const selectAllBrands = (state) => state.product.brands;
 export const selectTotalPages = (state) => state.product.totalPages;
 export const selectSingleProduct = (state) => state.product.selectedProduct;
+export const selectLoader = (state) => state.product.status;
 
 export default ProductSlice.reducer;
