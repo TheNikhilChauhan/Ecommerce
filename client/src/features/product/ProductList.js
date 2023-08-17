@@ -24,14 +24,24 @@ import {
   selectLoader,
   selectTotalPages,
 } from "./ProductSlice";
-import { PAGE_PRODUCTS, discountPrice } from "../../app/constant";
+import { PAGE_PRODUCTS } from "../../app/constant";
 import Pagination from "../common/Pagination";
 import { InfinitySpin } from "react-loader-spinner";
 
 const sortOptions = [
   { name: "Best Rating", sort: "rating", order: "desc", current: false },
-  { name: "Price: Low to High", sort: "price", order: "asc", current: false },
-  { name: "Price: High to Low", sort: "price", order: "desc", current: false },
+  {
+    name: "Price: Low to High",
+    sort: "discountPrice",
+    order: "asc",
+    current: false,
+  },
+  {
+    name: "Price: High to Low",
+    sort: "discountPrice",
+    order: "desc",
+    current: false,
+  },
 ];
 
 function classNames(...classes) {
@@ -435,13 +445,11 @@ function ProductGrid({ products, status }) {
                 <div>
                   <p className="text-sm  font-medium text-gray-900">
                     <CurrencyRupeeIcon className="w-6 h-6 inline "></CurrencyRupeeIcon>
-                    {Math.round(
-                      product.price * (1 - product.discountPercentage / 100)
-                    )}
+                    {product.discountPrice} {console.log(product.discountPrice)}
                   </p>
                   <p className="text-sm line-through font-medium text-gray-400">
                     <CurrencyRupeeIcon className="w-6 h-6 inline"></CurrencyRupeeIcon>
-                    <span>{discountPrice(product)} </span>
+                    <span>{product.price} </span>
                   </p>
                 </div>
               </div>

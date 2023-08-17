@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { PAGE_PRODUCTS, discountPrice } from "../../../app/constant";
+import { PAGE_PRODUCTS } from "../../../app/constant";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchAllOrdersAsync,
@@ -178,14 +178,14 @@ function AdminOrders() {
                             {console.log(item)}
                             <img
                               className="w-6 h-6 rounded-full"
-                              src={item.thumbnail}
-                              alt={item.title}
+                              src={item.product.thumbnail}
+                              alt={item.product.title}
                             />
                           </div>
                           <span>
-                            {item.title} - #{item.quantity} -
+                            {item.product.title} - #{item.product.quantity} -
                             <CurrencyRupeeIcon className="w-6 h-6 inline "></CurrencyRupeeIcon>
-                            {discountPrice(item)}
+                            {item.product.discountPrice}
                           </span>
                         </div>
                       ))}

@@ -50,28 +50,30 @@ const OrderSuccess = () => {
           <div className="border-t border-gray-300 pt-6 pb-4 flex flex-col">
             {order.items.map((item) => (
               <>
-                <li key={item.id} className="flex py-6">
+                <li key={item.product.id} className="flex py-6">
                   <div className=" flex h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                     <img
-                      src={item.thumbnail}
-                      alt={item.title}
+                      src={item.product.thumbnail}
+                      alt={item.product.title}
                       className="h-full w-full object-cover object-center"
                     />
                   </div>
                   <div className="flex flex-col ml-4">
-                    <div className="mb-6 font-semibold">{item.title}</div>
-                    <div className="mb-6">{item.title}</div>
+                    <div className="mb-6 font-semibold">
+                      {item.product.title}
+                    </div>
+                    <div className="mb-6">{item.product.title}</div>
 
                     <div className="grid grid-cols-2 gap-x-4 gap-y-2">
                       <div>
                         <h3 className="text-lg font-semibold mb-2">Quantity</h3>
-                        <p>{item.quantity}</p>
+                        <p>{item.product.quantity}</p>
                       </div>
                       <div>
                         <h3 className="text-lg font-semibold mb-2">Price</h3>
                         <p>
                           <CurrencyRupeeIcon className="w-9 h-15 inline"></CurrencyRupeeIcon>
-                          {discountPrice(item)}
+                          {item.product.discountPrice}
                         </p>
                       </div>
                     </div>
@@ -84,7 +86,7 @@ const OrderSuccess = () => {
                     <h4 className="text-md font-semibold mb-2">Subtotal</h4>
                     <p>
                       <CurrencyRupeeIcon className="w-9 h-15 inline"></CurrencyRupeeIcon>
-                      {discountPrice(item) * item.quantity}
+                      {item.product.discountPrice * item.quantity}
                     </p>
                   </div>
                 </div>
@@ -98,6 +100,7 @@ const OrderSuccess = () => {
               Your information
             </h3>
 
+            {/* Address */}
             <div className="grid grid-cols-2 gap-x-4 gap-y-2">
               {/* <div>
               {order.selectedAddress.name.map((address) => {

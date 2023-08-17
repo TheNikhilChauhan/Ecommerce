@@ -15,7 +15,7 @@ const UserOrder = () => {
   const orders = useSelector(selectUserOrders);
   const dispatch = useDispatch();
   const status = useSelector(selectUserInfoStatus);
-  const user = useSelector(selectUserInfo);
+  const userInfo = useSelector(selectUserInfo);
   const items = useSelector(selectItems);
 
   const month = [
@@ -35,9 +35,8 @@ const UserOrder = () => {
   let date = new Date();
 
   useEffect(() => {
-    console.log(user.id);
-    dispatch(fetchUserOrdersAsync(user.id));
-  }, [dispatch, user]);
+    dispatch(fetchUserOrdersAsync(userInfo.id));
+  }, [dispatch, userInfo]);
 
   return (
     <div>
@@ -102,21 +101,23 @@ const UserOrder = () => {
                               {order.items.map((item) => (
                                 <div className=" border-b-4 mb-5  ">
                                   <li
-                                    key={item.id}
+                                    key={item.product.id}
                                     className=" font-semibold flex justify-evenly gap-28 ml-20 align-center"
                                   >
                                     <div className="">
                                       <img
-                                        src={item.thumbnail}
+                                        src={item.product.thumbnail}
                                         className=" h-48 w-48"
                                       />
 
-                                      <div className="mb-2">{item.title}</div>
+                                      <div className="mb-2">
+                                        {item.product.title}
+                                      </div>
                                     </div>
                                     <div>
                                       <div className="mt-20">
                                         <CurrencyRupeeIcon className="w-9 h-15 inline"></CurrencyRupeeIcon>
-                                        {discountPrice(item)}
+                                        {item.product.discountPrice}
                                       </div>
                                     </div>
                                     <div>

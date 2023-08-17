@@ -10,18 +10,19 @@ import {
 
 import { useParams } from "react-router-dom";
 import { CurrencyRupeeIcon } from "@heroicons/react/20/solid";
-import { addToCartAsync } from "../cart/cartSlice";
+import { addToCartAsync, selectItems } from "../cart/cartSlice";
 import { selectUserLoggedIn } from "../auth/authSlice";
-import { Toaster, toast } from "react-hot-toast";
-import { discountPrice } from "../../app/constant";
+import { toast } from "react-hot-toast";
+
 import { InfinitySpin } from "react-loader-spinner";
 
-const colors = [
+/* const colors = [
   { name: "White", class: "bg-white", selectedClass: "ring-gray-400" },
   { name: "Gray", class: "bg-gray-200", selectedClass: "ring-gray-400" },
   { name: "Black", class: "bg-gray-900", selectedClass: "ring-gray-900" },
-];
-const sizes = [
+]; */
+
+/* const sizes = [
   { name: "XXS", inStock: false },
   { name: "XS", inStock: true },
   { name: "S", inStock: true },
@@ -30,7 +31,7 @@ const sizes = [
   { name: "XL", inStock: true },
   { name: "2XL", inStock: true },
   { name: "3XL", inStock: true },
-];
+]; */
 
 const reviews = { href: "#", average: 4, totalCount: 117 };
 
@@ -46,14 +47,29 @@ export default function ProductOverview() {
   const params = useParams();
   const user = useSelector(selectUserLoggedIn);
   const status = useSelector(selectLoader);
+  const items = useSelector(selectItems);
 
   const handleCart = (e) => {
     e.preventDefault();
-    const newItem = { ...product, quantity: 1, user: user.id };
-    delete newItem["id"];
-    dispatch(addToCartAsync(newItem));
 
-    toast.success("Item added to cart!");
+    if (items.findIndex((item) => item.product.id === product.id) < 0) {
+      const newItem = {
+        product: product.id,
+        user: user.id,
+        quantity: 1,
+      };
+      console.log("newItem:", JSON.stringify(newItem));
+      console.log("Items in cart:", items);
+      if (selectedColor) {
+        newItem.color = selectedColor;
+      }
+      if (selectedSize) {
+        newItem.size = selectedSize;
+      }
+      dispatch(addToCartAsync({ item: newItem, toast }));
+    } else {
+      toast.success("Item Already Added!");
+    }
   };
 
   useEffect(() => {
@@ -65,13 +81,10 @@ export default function ProductOverview() {
         {status === "loading" ? (
           <InfinitySpin width="200" color="#4fa94d" />
         ) : null}
-        {product ? (
+        {product && (
           <div className="pt-6">
             <nav aria-label="Breadcrumb">
-              <ol
-                role="list"
-                className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8"
-              >
+              <ol className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
                 {product.breadcrumbs &&
                   product.breadcrumbs.map((breadcrumb) => (
                     <li key={breadcrumb.id}>
@@ -152,13 +165,14 @@ export default function ProductOverview() {
               {/* Options */}
               <div className="mt-4 lg:row-span-3 lg:mt-0">
                 <h2 className="sr-only">Product information</h2>
-                <p className="text-3xl line-through tracking-tight text-gray-900">
+                <p className="text-3xl line-through tracking-tight text-gray-500">
                   <CurrencyRupeeIcon className="w-9 h-15 inline"></CurrencyRupeeIcon>
                   {product.price}
                 </p>
+
                 <p className="text-3xl tracking-tight text-gray-900">
                   <CurrencyRupeeIcon className="w-9 h-15 inline"></CurrencyRupeeIcon>
-                  {discountPrice(product)}
+                  {product.discountPrice}
                 </p>
 
                 {/* Reviews */}
@@ -367,7 +381,7 @@ export default function ProductOverview() {
               </div>
             </div>
           </div>
-        ) : null}
+        )}
       </div>
     </div>
   );

@@ -1,12 +1,3 @@
-// A mock function to mimic making an async request for data
-export function fetchAllProducts() {
-  return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8000/products");
-    const data = await response.json();
-    resolve({ data });
-  });
-}
-
 //fetching single product for product overview
 export function fetchSingleProduct(id) {
   return new Promise(async (resolve) => {
@@ -17,7 +8,7 @@ export function fetchSingleProduct(id) {
 }
 
 //fetching filtered products
-export function fetchFilteredProducts(filter, sort, pagination) {
+export function fetchFilteredProducts(filter, sort, pagination, admin) {
   let queryString = "";
   for (let key in filter) {
     const categoryValues = filter[key];
@@ -31,10 +22,13 @@ export function fetchFilteredProducts(filter, sort, pagination) {
   for (let key in pagination) {
     queryString += `${key}=${pagination[key]}&`;
   }
+  if (admin) {
+    queryString += "admin=true";
+  }
 
   return new Promise(async (resolve) => {
     const response = await fetch(
-      "http://localhost:8000/products?" + queryString
+      "http://localhost:8000/products?" + queryString + "isAdmin=true"
     );
     const data = await response.json();
     const totalPages = await response.headers.get("X-Total-Count");
@@ -45,7 +39,7 @@ export function fetchFilteredProducts(filter, sort, pagination) {
 //fetching all the categories
 export function fetchAllCategories() {
   return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8000/category");
+    const response = await fetch("http://localhost:8000/categories");
     const data = await response.json();
     resolve({ data });
   });

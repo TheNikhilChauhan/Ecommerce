@@ -10,14 +10,17 @@ import {
 const initialState = {
   status: "idle",
   items: [],
-  selectedIndex: null,
+  cartLoaded: false,
 };
 
 //Add to cart
 export const addToCartAsync = createAsyncThunk(
   "cart/addToCart",
-  async (item) => {
+  async (item, toast) => {
+    console.log("async item", item);
     const response = await addToCart(item);
+    console.log("res", response);
+    toast.success("Item Added To Cart");
     // The value we return becomes the `fulfilled` action payload
     return response.data;
   }
@@ -65,7 +68,7 @@ export const cartSlice = createSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    setSelectedIndexx: (state, action) => {
+    setSelectedIndex: (state, action) => {
       state.selectedIndex = action.payload;
     },
   },
@@ -78,6 +81,7 @@ export const cartSlice = createSlice({
       .addCase(addToCartAsync.fulfilled, (state, action) => {
         state.status = "idle";
         state.items.push(action.payload);
+        console.log("state item:", state.items);
       })
 
       //fetching items by Id of user
@@ -87,6 +91,11 @@ export const cartSlice = createSlice({
       .addCase(fetchItemsByUserIdAsync.fulfilled, (state, action) => {
         state.status = "idle";
         state.items = action.payload;
+        state.cartLoaded = true;
+      })
+      .addCase(fetchItemsByUserIdAsync.rejected, (state, action) => {
+        state.status = "idle";
+        state.cartLoaded = true;
       })
 
       //update cart
@@ -129,6 +138,6 @@ export const { setSelectedIndex } = cartSlice.actions;
 export const selectSelectedIndex = (state) => state.cart.selectedIndex;
 
 export const selectItems = (state) => state.cart.items;
-export const selectCartLoader = (state) => state.cart.status;
+export const selectCartLoader = (state) => state.cart.cartLoaded;
 
 export default cartSlice.reducer;

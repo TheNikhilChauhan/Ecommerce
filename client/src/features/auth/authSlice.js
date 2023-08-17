@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { createUser, checkUser, logout } from "./authAPI";
+import { createUser, checkUser, logout, resetPasswordRequest } from "./authAPI";
 
 const initialState = {
-  value: 0,
+  userLoggedIn: null,
   status: "idle",
   error: null,
 };
@@ -17,9 +17,26 @@ export const createUserAsync = createAsyncThunk(
 
 export const checkUserAsync = createAsyncThunk(
   "users/checkUser",
-  async (logInInfo) => {
-    const response = await checkUser(logInInfo);
-    return response.data;
+  async (logInInfo, { rejectWithValue }) => {
+    try {
+      const response = await checkUser(logInInfo);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      rejectWithValue(error);
+    }
+  }
+);
+
+export const resetPasswordRequestAsync = createAsyncThunk(
+  "users/resetPasswordRequest",
+  async (email) => {
+    try {
+      const response = await resetPasswordRequest(email);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
   }
 );
 
@@ -61,7 +78,7 @@ export const authSlice = createSlice({
       })
       .addCase(checkUserAsync.rejected, (state, action) => {
         state.status = "idle";
-        state.error = action.error;
+        state.error = action.payload;
       })
 
       //logout user
@@ -71,7 +88,18 @@ export const authSlice = createSlice({
       .addCase(logoutAsync.fulfilled, (state, action) => {
         state.status = "idle";
         state.userLoggedIn = null;
+      })
+
+      //reset password
+      .addCase(resetPasswordRequestAsync.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(resetPasswordRequestAsync.fulfilled, (state, action) => {
+        state.status = "idle";
+        state.mailSent = true;
       });
+
+    //
   },
 });
 
@@ -79,5 +107,6 @@ export const selectUserLoggedIn = (state) => state.auth.userLoggedIn;
 export const { increment } = authSlice.actions;
 export const selectCheckUser = (state) => state.auth.checkUser;
 export const selectError = (state) => state.auth.error;
+export const selectMailSent = (state) => state.auth.mailSent;
 
 export default authSlice.reducer;

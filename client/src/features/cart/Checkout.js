@@ -15,10 +15,10 @@ import { toast } from "react-hot-toast";
 import {
   createOrderAsync,
   selectCurrentOrder,
+  selectTotalOrders,
 } from "../../features/order/orderSlice";
 import { selectUserInfo } from "../../features/user/userSlice";
 import Navbar from "../../features/navbar/Navbar";
-import { discountPrice } from "../../app/constant";
 
 const Checkout = () => {
   const [menu, setMenu] = useState(false);
@@ -28,6 +28,7 @@ const Checkout = () => {
   };
 
   const currentOrder = useSelector(selectCurrentOrder);
+  const totalOrder = useSelector(selectTotalOrders);
 
   const user = useSelector(selectUserInfo);
 
@@ -42,13 +43,13 @@ const Checkout = () => {
 
   const items = useSelector(selectItems);
   const totalAmount = items.reduce(
-    (amount, item) => discountPrice(item) * item.quantity + amount,
+    (amount, item) => item.product.discountPrice * item.quantity + amount,
     0
   );
   const totalItems = items.reduce((total, item) => item.quantity + total, 0);
 
   const [selectedAddress, setSelectedAddress] = useState(null);
-  const [payment, setPayment] = useState(null);
+  const [paymentMethod, setPayment] = useState(null);
 
   const handleQuantity = (e, item) => {
     dispatch(updateCartAsync({ id: item.id, quantity: +e.target.value }));
@@ -69,13 +70,13 @@ const Checkout = () => {
   };
 
   const handleOrder = (e) => {
-    if (selectedAddress && payment) {
+    if (selectedAddress && paymentMethod) {
       const order = {
         items,
         totalItems,
-        payment,
+        paymentMethod,
         totalAmount,
-        user,
+        user: user.id,
         selectedAddress,
         status: "pending,",
       };
@@ -88,12 +89,15 @@ const Checkout = () => {
   return (
     <div>
       {!items.length && <Navigate to="/" replace={true}></Navigate>}
-      {currentOrder && currentOrder.payment === "cash" && (
-        <Navigate
-          to={`/order-success/${currentOrder.id}`}
-          replace={true}
-        ></Navigate>
-      )}
+      {currentOrder &&
+        console.log(`currentOrder: ${currentOrder.id}`) &&
+        console.log(`totalOrder: ${totalOrder}`) &&
+        currentOrder.paymentMethod === "cash" && (
+          <Navigate
+            to={`/order-success/${currentOrder.id}`}
+            replace={true}
+          ></Navigate>
+        )}
       <div className="flex justify-center items-center mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 ">
         <div className="py-16 px-4 md:px-6 2xl:px-0 flex justify-center items-center 2xl:mx-auto 2xl:container">
           <div className="flex flex-col justify-start items-start w-full space-y-9">
@@ -157,8 +161,8 @@ const Checkout = () => {
                           <li key={item.id} className="flex py-6">
                             <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                               <img
-                                src={item.thumbnail}
-                                alt={item.title}
+                                src={item.product.thumbnail}
+                                alt={item.product.title}
                                 className="h-full w-full object-cover object-center"
                               />
                             </div>
@@ -167,15 +171,17 @@ const Checkout = () => {
                               <div>
                                 <div className="flex justify-between text-base font-medium text-gray-900">
                                   <h3>
-                                    <a href={item.href}>{item.title}</a>
+                                    <a href={item.product.href}>
+                                      {item.product.title}
+                                    </a>
                                   </h3>
                                   <p className="ml-4">
                                     <CurrencyRupeeIcon className="w-9 h-15 inline"></CurrencyRupeeIcon>
-                                    {discountPrice(item)}
+                                    {item.product.discountPrice}
                                   </p>
                                 </div>
                                 <p className="mt-1 text-sm text-gray-500">
-                                  {item.brand}
+                                  {item.product.brand}
                                 </p>
                               </div>
                               <div className="flex flex-1 items-end justify-between p-3 text-sm">
@@ -440,7 +446,7 @@ const Checkout = () => {
                       onChange={handlePayment}
                       value="cash"
                       type="radio"
-                      checked={payment === "cash"}
+                      checked={paymentMethod === "cash"}
                       className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                     />
                     <label
@@ -458,7 +464,7 @@ const Checkout = () => {
                       onChange={handlePayment}
                       value="card"
                       type="radio"
-                      checked={payment === "card"}
+                      checked={paymentMethod === "card"}
                       className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600 "
                     />
                     <div className="px-5 py-5 border-solid border-2 border-gray-200">

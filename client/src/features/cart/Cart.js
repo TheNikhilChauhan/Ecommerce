@@ -8,24 +8,27 @@ import {
 } from "./cartSlice";
 import { Link, Navigate } from "react-router-dom";
 import { CurrencyRupeeIcon } from "@heroicons/react/20/solid";
-import { discountPrice } from "../../app/constant";
+
 import { InfinitySpin } from "react-loader-spinner";
 import DeleteModal from "../common/DeleteModal";
 
 export default function Cart() {
   const dispatch = useDispatch();
-  const status = useSelector(selectCartLoader);
   const items = useSelector(selectItems);
+  const status = useSelector(selectCartLoader);
+  const [openModal, setOpenModal] = useState(null);
+
+  console.log(items);
+
   const totalAmount = items.reduce(
-    (amount, item) => discountPrice(item) * item.quantity + amount,
+    (amount, item) => item.product.discountPrice * item.quantity + amount,
     0
   );
 
-  const [openModal, setOpenModal] = useState(null);
   const totalItems = items.reduce((total, item) => item.quantity + total, 0);
 
   const handleQuantity = (e, item) => {
-    dispatch(updateCartAsync({ ...item, quantity: e.target.value }));
+    dispatch(updateCartAsync({ id: item.id, quantity: +e.target.value }));
   };
 
   const handleRemove = (e, id) => {
@@ -51,8 +54,8 @@ export default function Cart() {
                   <li key={item.id} className="flex py-6">
                     <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                       <img
-                        src={item.thumbnail}
-                        alt={item.title}
+                        src={item.product.thumbnail}
+                        alt={item.product.title}
                         className="h-full w-full object-cover object-center"
                       />
                     </div>
@@ -61,15 +64,15 @@ export default function Cart() {
                       <div>
                         <div className="flex justify-between text-base font-medium text-gray-900">
                           <h3>
-                            <a href={item.href}>{item.title}</a>
+                            <a href={item.product.id}>{item.product.title}</a>
                           </h3>
                           <p className="ml-4">
                             <CurrencyRupeeIcon className="w-9 h-15 inline"></CurrencyRupeeIcon>
-                            {discountPrice(item)}
+                            {item.product.discountPrice}
                           </p>
                         </div>
                         <p className="mt-1 text-sm text-gray-500">
-                          {item.brand}
+                          {item.product.brand}
                         </p>
                       </div>
                       <div className="flex flex-1 items-end justify-between text-sm">
@@ -89,7 +92,7 @@ export default function Cart() {
 
                         <div className="flex">
                           <DeleteModal
-                            title={`Deleting ${item.title} `}
+                            title={`Deleting ${item.product.title} `}
                             message="Are you sure you want to Delete this Item?"
                             deleteOption="Remove this Item"
                             cancelOption="Cancel"

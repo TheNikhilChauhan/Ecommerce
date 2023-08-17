@@ -4,10 +4,17 @@ import styles from "../../../styles/Username.module.css";
 import { Link, Navigate } from "react-router-dom";
 
 import { useForm } from "react-hook-form";
-import { checkUserAsync, selectError, selectUserLoggedIn } from "../authSlice";
+import {
+  checkUserAsync,
+  selectError,
+  selectMailSent,
+  selectUserLoggedIn,
+} from "../authSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function Login() {
+  const mailSent = useSelector(selectMailSent);
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -29,7 +36,10 @@ export default function Login() {
             <form
               noValidate
               className="py-1 overflow-x-visible "
-              onSubmit={handleSubmit((data) => console.log(data))}
+              onSubmit={handleSubmit((data) => {
+                console.log(data);
+                /*  dispatch(resetPasswordRequest(data.email)); */
+              })}
             >
               <div className="textbox flex flex-col items-center py-4 gap-6">
                 <input
@@ -47,6 +57,8 @@ export default function Login() {
                 {errors.email && (
                   <p className="text-red-500">{errors.email.message}</p>
                 )}
+
+                {mailSent && <p className="text-green-500">Mail Sent</p>}
 
                 <button
                   className="border bg-indigo-500 w-3/4 py-4 rounded-lg text-gray-50 text-xl shadow-sm text-center hover:bg-red-500"

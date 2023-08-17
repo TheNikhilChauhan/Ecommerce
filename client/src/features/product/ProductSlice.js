@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
-  fetchAllProducts,
   fetchFilteredProducts,
   fetchAllBrands,
   fetchAllCategories,
@@ -17,15 +16,6 @@ const initialState = {
   status: "idle",
   selectedProduct: 0,
 };
-//All products
-export const fetchAllProductsAsync = createAsyncThunk(
-  "product/fetchAllProducts",
-  async () => {
-    const response = await fetchAllProducts();
-    // The value we return becomes the `fulfilled` action payload
-    return response.data;
-  }
-);
 
 //Single product in product overview
 export const fetchSingleProductAsync = createAsyncThunk(
@@ -40,8 +30,13 @@ export const fetchSingleProductAsync = createAsyncThunk(
 //filter products
 export const fetchFilteredProductsAsync = createAsyncThunk(
   "product/fetchFilteredProducts",
-  async ({ filter, sort, pagination }) => {
-    const response = await fetchFilteredProducts(filter, sort, pagination);
+  async ({ filter, sort, pagination, admin }) => {
+    const response = await fetchFilteredProducts(
+      filter,
+      sort,
+      pagination,
+      admin
+    );
     // The value we return becomes the `fulfilled` action payload
     return response.data;
   }
@@ -67,7 +62,7 @@ export const fetchCategoryAsync = createAsyncThunk(
 
 // creating new product
 export const createProductAsync = createAsyncThunk(
-  "product/createProduct",
+  "product/create",
   async (product) => {
     const response = await createProduct(product);
 
@@ -77,7 +72,7 @@ export const createProductAsync = createAsyncThunk(
 
 //update the product
 export const updateProductAsync = createAsyncThunk(
-  "product/updateProduct",
+  "product/update",
   async (update) => {
     const response = await updateProduct(update);
 
@@ -97,13 +92,6 @@ export const ProductSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
-      .addCase(fetchAllProductsAsync.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(fetchAllProductsAsync.fulfilled, (state, action) => {
-        state.status = "idle";
-        state.products = action.payload;
-      })
 
       //filter
       .addCase(fetchFilteredProductsAsync.pending, (state) => {
@@ -161,6 +149,7 @@ export const ProductSlice = createSlice({
           (product) => product.id === action.payload.id
         );
         state.products[index] = action.payload;
+        state.selectedProduct = action.payload;
       });
   },
 });

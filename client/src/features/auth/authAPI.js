@@ -1,8 +1,6 @@
-import { isRejected } from "@reduxjs/toolkit";
-
 export function createUser(userData) {
   return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8000/users", {
+    const response = await fetch("http://localhost:8000/auth/signup", {
       method: "POST",
       body: JSON.stringify(userData),
       headers: { "content-type": "application/json" },
@@ -14,16 +12,22 @@ export function createUser(userData) {
 
 export function checkUser(logInInfo) {
   return new Promise(async (resolve, reject) => {
-    const email = logInInfo.email;
-    const password = logInInfo.password;
-    const response = await fetch("http://localhost:8000/users?email=" + email);
-    const data = await response.json();
-    if (data.length) {
-      if (password === data[0].password) {
-        resolve({ data: data[0] });
+    try {
+      const response = await fetch("http://localhost:8000/auth/login", {
+        method: "POST",
+        body: JSON.stringify(logInInfo),
+        headers: { "content-type": "application/json" },
+      });
+      if (response.ok) {
+        const data = await response.json();
+
+        resolve({ data });
+      } else {
+        const error = await response.json();
+        reject(error);
       }
-    } else {
-      reject({ message: "User not found" });
+    } catch (error) {
+      reject(error);
     }
   });
 }
@@ -31,5 +35,30 @@ export function checkUser(logInInfo) {
 export function logout(userId) {
   return new Promise(async (resolve) => {
     resolve({ data: "success" });
+  });
+}
+
+export function resetPasswordRequest(email) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await fetch(
+        "http://localhost:8000/auth/reset-pass-request",
+        {
+          method: "POST",
+          body: JSON.stringify(email),
+          headers: { "content-type": "application/json" },
+        }
+      );
+      if (response.ok) {
+        const data = await response.json();
+
+        resolve({ data });
+      } else {
+        const error = await response.json();
+        reject(error);
+      }
+    } catch (error) {
+      reject(error);
+    }
   });
 }
