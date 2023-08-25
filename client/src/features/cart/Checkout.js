@@ -9,16 +9,16 @@ import {
 import { Link, Navigate } from "react-router-dom";
 import { CurrencyRupeeIcon } from "@heroicons/react/20/solid";
 import { useForm } from "react-hook-form";
-import { selectUserLoggedIn } from "../../features/auth/authSlice";
-import { updateUserAsync } from "../../features/user/userSlice";
+
+import { selectUserInfo, updateUserAsync } from "../../features/user/userSlice";
 import { toast } from "react-hot-toast";
 import {
   createOrderAsync,
   selectCurrentOrder,
+  selectOrders,
   selectTotalOrders,
+  updateOrderAsync,
 } from "../../features/order/orderSlice";
-import { selectUserInfo } from "../../features/user/userSlice";
-import Navbar from "../../features/navbar/Navbar";
 
 const Checkout = () => {
   const [menu, setMenu] = useState(false);
@@ -28,10 +28,10 @@ const Checkout = () => {
   };
 
   const currentOrder = useSelector(selectCurrentOrder);
-  const totalOrder = useSelector(selectTotalOrders);
 
-  const user = useSelector(selectUserInfo);
-
+  const items = useSelector(selectItems);
+  const userInfo = useSelector(selectUserInfo);
+  // const status = useSelector(selectStatus);
   const {
     register,
     handleSubmit,
@@ -41,7 +41,6 @@ const Checkout = () => {
   //cart
   const dispatch = useDispatch();
 
-  const items = useSelector(selectItems);
   const totalAmount = items.reduce(
     (amount, item) => item.product.discountPrice * item.quantity + amount,
     0
@@ -61,7 +60,7 @@ const Checkout = () => {
 
   const handleAddress = (e) => {
     console.log(e.target.value);
-    setSelectedAddress(user.addresses[e.target.value]);
+    setSelectedAddress(userInfo.addresses[e.target.value]);
   };
 
   const handlePayment = (e) => {
@@ -76,10 +75,11 @@ const Checkout = () => {
         totalItems,
         paymentMethod,
         totalAmount,
-        user: user.id,
+        user: userInfo.id,
         selectedAddress,
         status: "pending,",
       };
+
       dispatch(createOrderAsync(order));
     } else {
       toast.error("Enter Address and Payment method");
@@ -89,15 +89,12 @@ const Checkout = () => {
   return (
     <div>
       {!items.length && <Navigate to="/" replace={true}></Navigate>}
-      {currentOrder &&
-        console.log(`currentOrder: ${currentOrder.id}`) &&
-        console.log(`totalOrder: ${totalOrder}`) &&
-        currentOrder.paymentMethod === "cash" && (
-          <Navigate
-            to={`/order-success/${currentOrder.id}`}
-            replace={true}
-          ></Navigate>
-        )}
+      {currentOrder && currentOrder.paymentMethod === "cash" && (
+        <Navigate
+          to={`/order-success/${currentOrder._id}`}
+          replace={true}
+        ></Navigate>
+      )}
       <div className="flex justify-center items-center mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 ">
         <div className="py-16 px-4 md:px-6 2xl:px-0 flex justify-center items-center 2xl:mx-auto 2xl:container">
           <div className="flex flex-col justify-start items-start w-full space-y-9">
@@ -264,8 +261,8 @@ const Checkout = () => {
                       console.log(data);
                       dispatch(
                         updateUserAsync({
-                          ...user,
-                          addresses: [...user.addresses, data],
+                          ...userInfo,
+                          addresses: [...userInfo.addresses, data],
                         })
                       );
                     })}
@@ -387,7 +384,7 @@ const Checkout = () => {
                     Choose from Existing addresses
                   </p>
                   <ul>
-                    {user.addresses.map((address, index) => {
+                    {userInfo.addresses.map((address, index) => {
                       return (
                         <li
                           key={index}

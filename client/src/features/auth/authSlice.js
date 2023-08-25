@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { createUser, checkUser, logout, resetPasswordRequest } from "./authAPI";
 
 const initialState = {
-  userLoggedIn: null,
+  userLoggedInToken: null,
   status: "idle",
   error: null,
 };
@@ -65,7 +65,7 @@ export const authSlice = createSlice({
       })
       .addCase(createUserAsync.fulfilled, (state, action) => {
         state.status = "idle";
-        state.userLoggedIn = action.payload;
+        state.userLoggedInToken = action.payload;
       })
 
       // check user
@@ -74,7 +74,7 @@ export const authSlice = createSlice({
       })
       .addCase(checkUserAsync.fulfilled, (state, action) => {
         state.status = "idle";
-        state.userLoggedIn = action.payload;
+        state.userLoggedInToken = action.payload;
       })
       .addCase(checkUserAsync.rejected, (state, action) => {
         state.status = "idle";
@@ -87,7 +87,7 @@ export const authSlice = createSlice({
       })
       .addCase(logoutAsync.fulfilled, (state, action) => {
         state.status = "idle";
-        state.userLoggedIn = null;
+        state.userLoggedInToken = null;
       })
 
       //reset password
@@ -103,7 +103,7 @@ export const authSlice = createSlice({
   },
 });
 
-export const selectUserLoggedIn = (state) => state.auth.userLoggedIn;
+export const selectUserLoggedIn = (state) => state.auth.userLoggedInToken;
 export const { increment } = authSlice.actions;
 export const selectCheckUser = (state) => state.auth.checkUser;
 export const selectError = (state) => state.auth.error;

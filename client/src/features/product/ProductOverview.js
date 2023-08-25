@@ -16,13 +16,13 @@ import { toast } from "react-hot-toast";
 
 import { InfinitySpin } from "react-loader-spinner";
 
-/* const colors = [
+const colors = [
   { name: "White", class: "bg-white", selectedClass: "ring-gray-400" },
   { name: "Gray", class: "bg-gray-200", selectedClass: "ring-gray-400" },
   { name: "Black", class: "bg-gray-900", selectedClass: "ring-gray-900" },
-]; */
+];
 
-/* const sizes = [
+const sizes = [
   { name: "XXS", inStock: false },
   { name: "XS", inStock: true },
   { name: "S", inStock: true },
@@ -31,7 +31,7 @@ import { InfinitySpin } from "react-loader-spinner";
   { name: "XL", inStock: true },
   { name: "2XL", inStock: true },
   { name: "3XL", inStock: true },
-]; */
+];
 
 const reviews = { href: "#", average: 4, totalCount: 117 };
 
@@ -45,7 +45,7 @@ export default function ProductOverview() {
   const product = useSelector(selectSingleProduct);
   const dispatch = useDispatch();
   const params = useParams();
-  const user = useSelector(selectUserLoggedIn);
+
   const status = useSelector(selectLoader);
   const items = useSelector(selectItems);
 
@@ -55,7 +55,7 @@ export default function ProductOverview() {
     if (items.findIndex((item) => item.product.id === product.id) < 0) {
       const newItem = {
         product: product.id,
-        user: user.id,
+
         quantity: 1,
       };
       console.log("newItem:", JSON.stringify(newItem));
@@ -205,7 +205,7 @@ export default function ProductOverview() {
 
                 <form className="mt-10">
                   {/* Colors */}
-                  {/*  <div>
+                  <div>
                     <h3 className="text-sm font-medium text-gray-900">Color</h3>
 
                     <RadioGroup
@@ -244,10 +244,10 @@ export default function ProductOverview() {
                         ))}
                       </div>
                     </RadioGroup>
-                  </div> */}
+                  </div>
 
                   {/* Sizes */}
-                  {/* <div className="mt-10">
+                  <div className="mt-10">
                     <div className="flex items-center justify-between">
                       <h3 className="text-sm font-medium text-gray-900">
                         Size
@@ -327,7 +327,7 @@ export default function ProductOverview() {
                         ))}
                       </div>
                     </RadioGroup>
-                  </div> */}
+                  </div>
 
                   <button
                     type="submit"

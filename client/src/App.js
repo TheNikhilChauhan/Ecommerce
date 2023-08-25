@@ -47,8 +47,8 @@ function App() {
 
   useEffect(() => {
     if (user) {
-      dispatch(fetchItemsByUserIdAsync(user.id));
-      dispatch(fetchLoggedInUserAsync(user.id));
+      dispatch(fetchItemsByUserIdAsync());
+      dispatch(fetchLoggedInUserAsync());
     }
   }, [dispatch, user]);
 
@@ -125,7 +125,8 @@ function App() {
       path: "/cart",
       element: (
         <Protected>
-          <CartPage />
+          {" "}
+          <CartPage />{" "}
         </Protected>
       ),
     },
@@ -148,7 +149,7 @@ function App() {
       ),
     },
     {
-      path: "/order-success/:id",
+      path: "/order-success/:_id",
       element: (
         <Protected>
           <OrderSuccessPage />

@@ -27,6 +27,7 @@ import {
 import { PAGE_PRODUCTS } from "../../app/constant";
 import Pagination from "../common/Pagination";
 import { InfinitySpin } from "react-loader-spinner";
+import { selectUserInfo } from "../user/userSlice";
 
 const sortOptions = [
   { name: "Best Rating", sort: "rating", order: "desc", current: false },
@@ -59,6 +60,7 @@ export default function ProductList() {
   const category = useSelector(selectAllCategories);
   const totalPages = useSelector(selectTotalPages);
   const status = useSelector(selectLoader);
+  const userInfo = useSelector(selectUserInfo);
 
   //filter | brands and categories
   const filters = [
@@ -132,7 +134,7 @@ export default function ProductList() {
         <main className="mx-auto w-full px-4 sm:px-6 lg:px-14">
           <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-12">
             <h1 className="text-4xl font-bold tracking-tight text-white">
-              Category Menu
+              Category Menu {console.log("userinfo", userInfo)}
             </h1>
 
             <div className="flex items-center">

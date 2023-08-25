@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const orderSchema = new Schema({
+  id: { type: Schema.Types.ObjectId },
   items: { type: [Schema.Types.Mixed], required: true },
   totalAmount: { type: Number },
   totalItems: { type: Number },
@@ -11,7 +12,7 @@ const orderSchema = new Schema({
   selectedAddress: { type: Schema.Types.Mixed, required: true },
 });
 
-const virtual = orderSchema.virtual("id");
+/* const virtual = orderSchema.virtual("id");
 virtual.get(function () {
   return this._id;
 });
@@ -21,6 +22,6 @@ orderSchema.set("toJSON", {
   transform: function (doc, res) {
     delete res._id;
   },
-});
+}); */
 
 exports.Order = mongoose.model("Order", orderSchema);

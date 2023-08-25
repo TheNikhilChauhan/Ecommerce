@@ -1,4 +1,3 @@
-import { Toaster } from "react-hot-toast";
 import Navbar from "../features/navbar/Navbar";
 import ProductList from "../features/product/ProductList";
 

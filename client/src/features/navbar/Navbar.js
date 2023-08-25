@@ -3,16 +3,16 @@ import { NavLink } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { selectItems } from "../cart/cartSlice";
-import { selectUserLoggedIn } from "../auth/authSlice";
 
 import { selectUserInfo } from "../user/userSlice";
+import { selectUserLoggedIn } from "../auth/authSlice";
 
 const Navbar = ({ children }) => {
   const items = useSelector(selectItems);
   const loggedIn = useSelector(selectUserLoggedIn);
   const [showOptions, setShowOptions] = useState(false);
 
-  const user = useSelector(selectUserInfo);
+  const userInfo = useSelector(selectUserInfo);
 
   const handleClick = () => {
     setShowOptions(!showOptions);
@@ -84,7 +84,7 @@ const Navbar = ({ children }) => {
                       aria-labelledby="menu-button"
                       tabindex="-1"
                     >
-                      {user.role === "admin" ? (
+                      {userInfo.role === "admin" ? (
                         <li className="text-black  hover: p-2 hover: border-gray-400 hover: border-solid hover:border-2 active:text-yellow-200">
                           <NavLink to={"/admin"}>Admin Dashboard</NavLink>
                         </li>
@@ -121,7 +121,6 @@ const Navbar = ({ children }) => {
             )}
           </li>
         </ul>
-
         <main>
           <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
             {children}

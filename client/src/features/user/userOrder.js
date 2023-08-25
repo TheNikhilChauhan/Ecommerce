@@ -9,7 +9,7 @@ import {
 } from "./userSlice";
 import { selectItems } from "../cart/cartSlice";
 import { CurrencyRupeeIcon } from "@heroicons/react/20/solid";
-import { discountPrice } from "../../app/constant";
+import { InfinitySpin } from "react-loader-spinner";
 
 const UserOrder = () => {
   const orders = useSelector(selectUserOrders);
@@ -35,14 +35,14 @@ const UserOrder = () => {
   let date = new Date();
 
   useEffect(() => {
-    dispatch(fetchUserOrdersAsync(userInfo.id));
-  }, [dispatch, userInfo]);
+    dispatch(fetchUserOrdersAsync());
+  }, [dispatch]);
 
   return (
     <div>
       {orders &&
         orders.map((order) => (
-          <div key={order.id}>
+          <div key={order._id}>
             <div className="flex border-2 border-gray-300 justify-center items-center mx-auto max-w-7xl px-4 sm:px-6 lg:px-12 ">
               <div className="py-16 px-4 md:px-6 2xl:px-0 flex justify-center items-center 2xl:mx-auto 2xl:container">
                 <div className="flex flex-col justify-start items-start w-full space-y-9">
@@ -69,7 +69,7 @@ const UserOrder = () => {
                               </div>
                               <div className="w-full sm:w-1/2 md:w-1/3 mr-32">
                                 <p className="font-bold">Order number</p>
-                                <p>{order.id}</p>
+                                <p>{order._id}</p>
                               </div>
 
                               <div className="w-full sm:w-1/2 md:w-1/3 mr-32">
@@ -145,6 +145,9 @@ const UserOrder = () => {
             </div>
           </div>
         ))}
+      {status === "loading" ? (
+        <InfinitySpin width="200" color="#4fa94d" />
+      ) : null}
     </div>
   );
 };
